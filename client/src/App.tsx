@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from 'antd';
+import { Button } from "antd";
 import "./App.less";
 
 function App() {
@@ -13,8 +13,7 @@ function App() {
 
   return (
     <div className="App">
-  
-      
+      <p>{!data ? "Loading..." : data}</p>
     </div>
   );
 }
