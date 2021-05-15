@@ -9,10 +9,6 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
-});
-
 app.use(
   cookieSession({
     name: "spotify-auth-session",
@@ -22,8 +18,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-// WHY ISNT ISLOGGEDIN WORKING
 app.get("/", isLoggedIn, (req, res) => {
   res.send(`Hello world ${req.user.displayName}`);
 });
@@ -35,7 +29,11 @@ app.get("/logout", (req, res) => {
 });
 
 app.get("/auth/error", (req, res) => res.send("Unknown Error"));
-app.get("/auth/spotify", passport.authenticate("spotify"));
+
+app.get("/auth/spotify", passport.authenticate("spotify",{
+  scope: ['ugc-image-upload', 'playlist-modify-public', 'playlist-modify-private', 'user-follow-read', 'user-library-modify', 'playlist-read-private', 'playlist-read-collaborative', 'streaming' ],
+}));
+
 app.get(
   "/auth/spotify/callback",
   passport.authenticate("spotify", { failureRedirect: "/auth/error" }),

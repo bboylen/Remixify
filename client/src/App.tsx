@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "antd";
+import Login from './components/Login';
 import "./App.less";
 
-function App() {
+const App:React.FC = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -11,9 +11,13 @@ function App() {
       .then((data) => setData(data.message));
   }, []);
 
+  // How to check if logged in??? cookie, db 
+  // if logged in -> home
+  // if not logged in -> auth
   return (
     <div className="App">
       <p>{!data ? "Loading..." : data}</p>
+      <Login/>
     </div>
   );
 }
