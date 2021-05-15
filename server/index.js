@@ -1,4 +1,5 @@
 const express = require("express");
+require('dotenv').config();
 const cookieSession = require("cookie-session");
 const passport = require("passport");
 const isLoggedIn = require("./middleware/auth.ts");
