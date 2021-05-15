@@ -4,8 +4,10 @@ import { Card, Button, Row, Col } from "antd";
 const Login: React.FC = () => {
   const [data, setData] = useState(null);
 
-  const loginToSpotify = () => {
+  const loginToSpotify = (e: any) => {
     //What do I add here?
+    e.preventDefault();
+    window.open("http://localhost:3001/auth/spotify", "_self");
   };
 
   return (
@@ -17,7 +19,7 @@ const Login: React.FC = () => {
             style={{ width: 300, textAlign: "center" }}
             headStyle={{ backgroundColor: "salmon" }}
           >
-            <Button onClick={() => loginToSpotify} type={"primary"}>
+            <Button onClick={loginToSpotify} type={"primary"}>
               Login with Spotify
             </Button>
             <Button style={{ marginTop: "25px" }}>Login as guest</Button>
