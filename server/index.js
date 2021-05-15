@@ -23,7 +23,7 @@ app.use(passport.session());
 
 
 // WHY ISNT ISLOGGEDIN WORKING
-app.get("/", (req, isLoggedIn, res) => {
+app.get("/", (req, res) => {
   res.send(`Hello world ${req.user.displayName}`);
 });
 
