@@ -1,8 +1,8 @@
 const express = require("express");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
-require("./utilities/passport.ts");
 const isLoggedIn = require("./middleware/auth.ts");
+require("./utilities/passport.ts");
 
 const PORT = process.env.PORT || 3001;
 
@@ -23,7 +23,7 @@ app.use(passport.session());
 
 
 // WHY ISNT ISLOGGEDIN WORKING
-app.get("/", (req, res) => {
+app.get("/", isLoggedIn, (req, res) => {
   res.send(`Hello world ${req.user.displayName}`);
 });
 
