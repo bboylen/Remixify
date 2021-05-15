@@ -16,7 +16,6 @@ const App:React.FC = () => {
   // if not logged in -> auth
   return (
     <div className="App">
-      <p>{!data ? "Loading..." : data}</p>
       <Login/>
     </div>
   );
