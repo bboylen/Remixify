@@ -3,11 +3,17 @@ const SpotifyStrategy = require("passport-spotify").Strategy;
 const User = require("../models/user-model");
 
 passport.serializeUser(function (user, done) {
-  done(null, user);
+  done(null, user.id);
 });
 
-passport.deserializeUser(function (user, done) {
-  done(null, user);
+passport.deserializeUser(function (id, done) {
+  User.findById(id)
+    .then((user) => {
+      done(null, user);
+    })
+    .catch((e) => {
+      done(new Error("Failed to deserialize a user"));
+    });
 });
 
 passport.use(

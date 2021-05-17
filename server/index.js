@@ -12,6 +12,7 @@ connectDB();
 
 const app = express();
 
+// need different cookie keys?
 app.use(
   cookieSession({
     name: "spotify-auth-session",
@@ -21,6 +22,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Should this return 401 failure if not logged in?
 app.get("/", isLoggedIn, (req, res) => {
   res.send(`Hello world ${req.user.displayName}`);
 });
