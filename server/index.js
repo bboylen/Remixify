@@ -22,6 +22,15 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// set up cors to allow us to accept requests from our client
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000", // allow to server to accept request from different origin
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     credentials: true // allow session cookie from browser to pass through
+//   })
+// );
+
 // Should this return 401 failure if not logged in?
 app.get("/", isLoggedIn, (req, res) => {
   res.send(`Hello world ${req.user.displayName}`);
@@ -41,7 +50,7 @@ app.get("/auth/spotify", passport.authenticate("spotify",{
 
 app.get(
   "/auth/spotify/callback",
-  passport.authenticate("spotify", { failureRedirect: "/auth/error" }),
+  passport.authenticate("spotify", { successRedirect: 'http://localhost:3000', failureRedirect: "/auth/error" }),
   function (req, res) {
     res.redirect("/");
   }
