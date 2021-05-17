@@ -1,11 +1,12 @@
-const passport = require('passport');
-const SpotifyStrategy = require('passport-spotify').Strategy;
+const passport = require("passport");
+const SpotifyStrategy = require("passport-spotify").Strategy;
+const User = require("../models/user-model");
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user);
 });
 
-passport.deserializeUser(function(user, done) {
+passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
@@ -14,12 +15,30 @@ passport.use(
     {
       clientID: process.env.SPOTIFY_ID,
       clientSecret: process.env.SPOTIFY_SECRET,
-      callbackURL: 'http://localhost:3001/auth/spotify/callback'
+      callbackURL: "/auth/spotify/callback",
     },
-    function(acessToken, refreshToken, profile, done) {
-      return done(null, profile);
+    async (accessToken, refreshToken, profile, done) => {
+      const currentUser = await User.findOne({
+        spotifyId: profile.id,
+      });
+
+      if (!currentUser) {
+        try {
+          const newUser = await new User({
+            username: profile.username,
+            displayName: profile.displayName,
+            spotifyId: profile.id,
+            profileImageUrl: profile.photos[0].value,
+          }).save();
+          if (newUser) {
+            done(null, newUser);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
+      return done(null, currentUser);
     }
   )
 );
-
-
