@@ -3,9 +3,12 @@ require('dotenv').config();
 const cookieSession = require("cookie-session");
 const passport = require("passport");
 const isLoggedIn = require("./middleware/auth.ts");
+const connectDB = require('./config/db')
 require("./utilities/passport.ts");
 
 const PORT = process.env.PORT || 3001;
+
+connectDB();
 
 const app = express();
 
