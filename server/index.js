@@ -1,9 +1,10 @@
 const express = require("express");
-require('dotenv').config();
+require("dotenv").config();
 const cookieSession = require("cookie-session");
 const passport = require("passport");
 const isLoggedIn = require("./middleware/auth.ts");
-const connectDB = require('./config/db')
+const connectDB = require("./config/db");
+const authRoutes = require("./routes/auth-routes");
 require("./utilities/passport.ts");
 
 const PORT = process.env.PORT || 3001;
@@ -33,7 +34,12 @@ app.use(passport.session());
 
 // Should this return 401 failure if not logged in?
 app.get("/", isLoggedIn, (req, res) => {
-  res.send(`Hello world ${req.user.displayName}`);
+  res.status(200).json({
+    authenticated: true,
+    message: "user successfully authenticated",
+    user: req.user,
+    cookies: req.cookies,
+  });
 });
 
 app.get("/logout", (req, res) => {
@@ -42,19 +48,7 @@ app.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-app.get("/auth/error", (req, res) => res.send("Unknown Error"));
-
-app.get("/auth/spotify", passport.authenticate("spotify",{
-  scope: ['ugc-image-upload', 'playlist-modify-public', 'playlist-modify-private', 'user-follow-read', 'user-library-modify', 'playlist-read-private', 'playlist-read-collaborative', 'streaming' ],
-}));
-
-app.get(
-  "/auth/spotify/callback",
-  passport.authenticate("spotify", { successRedirect: 'http://localhost:3000', failureRedirect: "/auth/error" }),
-  function (req, res) {
-    res.redirect("/");
-  }
-);
+app.use("/auth/", authRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
