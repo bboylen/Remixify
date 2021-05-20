@@ -7,6 +7,7 @@ const App: React.FC = () => {
   const [user, setUser] = useState<Object>({});
   const [loading, setLoading] = useState<Boolean>(true);
 
+  // add useContext to store User state
   const authenticateUser = async () => {
     await fetch("http://localhost:3001/auth/login/success", {
       method: "GET",
@@ -21,25 +22,23 @@ const App: React.FC = () => {
         throw new Error("failed to authenticate the user");
       })
       .then((responseJson) => {
-        console.log('success1')
         setAuthenticated(true);
         setUser(responseJson.user);
       })
       .catch((error) => {
-        console.log('failure1')
+        console.log(error);
         setAuthenticated(false);
       })
       .finally(() => {
-        console.log('should be in both')
         setLoading(false);
       });
   };
-console.log(loading);
+
   useEffect(() => {
     authenticateUser();
   },[]);
-
- // if (loading) return null;
+  
+  if (loading) return null;
   return (
     <div className="App">{!authenticated ? <Login /> : <h1> Welcome</h1>}</div>
   );
