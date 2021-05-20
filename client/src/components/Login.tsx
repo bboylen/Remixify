@@ -4,34 +4,7 @@ import { Card, Button, Row, Col } from "antd";
 const Login: React.FC = () => {
   // user interface
 
-  const [authenticated, setAuthenticated] = useState<Boolean>(false);
-  const [user, setUser] = useState<Object>(false);
-
-  useEffect(() => {
-    const authenticateUser = async () => {
-      await fetch("http://localhost:3001/auth/login/success", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => {
-          if (response.status === 200) return response.json();
-          throw new Error("failed to authenticate user");
-        })
-        .then((responseJson) => {
-          setAuthenticated(true);
-          setUser(responseJson.user);
-        })
-        .catch((error) => {
-          setAuthenticated(false);
-          throw new Error("failed 2 authenticate user");
-        });
-    }
-    authenticateUser();
-  }, []);
+  
 
   const loginToSpotify = (e: any) => {
     //What do I add here?
@@ -41,9 +14,6 @@ const Login: React.FC = () => {
 
   return (
     <div className="Login">
-      {authenticated ? (
-        <h1> Welcome</h1>
-      ) : (
         <Row justify={"center"} style={{ paddingTop: "200px" }}>
           <Col>
             <Card
@@ -60,7 +30,6 @@ const Login: React.FC = () => {
             </Card>
           </Col>
         </Row>
-      )}
     </div>
   );
 };
