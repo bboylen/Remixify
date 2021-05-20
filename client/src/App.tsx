@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import Login from "./components/Login";
+import Home from './components/Home';
+import { UserContext } from './util/UserContext';
 import "./App.less";
 
 const App: React.FC = () => {
@@ -8,6 +10,7 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState<Boolean>(true);
 
   // add useContext to store User state
+
   const authenticateUser = async () => {
     await fetch("http://localhost:3001/auth/login/success", {
       method: "GET",
@@ -36,11 +39,17 @@ const App: React.FC = () => {
 
   useEffect(() => {
     authenticateUser();
-  },[]);
-  
+  }, []);
+
   if (loading) return null;
+
+  // need to add auth context, that way if auth changes they user gets booted back to the login page!
   return (
-    <div className="App">{!authenticated ? <Login /> : <h1> Welcome</h1>}</div>
+    <UserContext.Provider value={user}>
+      <div className="App">
+        {!authenticated ? <Login /> : <Home />}
+      </div>
+    </UserContext.Provider>
   );
 };
 

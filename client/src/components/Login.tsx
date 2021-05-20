@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { Card, Button, Row, Col } from "antd";
+import { UserContext } from '../util/UserContext';
 
 const Login: React.FC = () => {
   // user interface
-
-
+  const user = useContext(UserContext);
+  console.log(user);
   const loginToSpotify = (e: any) => {
     //What do I add here?
     e.preventDefault();
