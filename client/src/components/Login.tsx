@@ -4,7 +4,6 @@ import { Card, Button, Row, Col } from "antd";
 const Login: React.FC = () => {
   // user interface
 
-  
 
   const loginToSpotify = (e: any) => {
     //What do I add here?

@@ -21,27 +21,25 @@ const App: React.FC = () => {
         throw new Error("failed to authenticate the user");
       })
       .then((responseJson) => {
+        console.log('success1')
         setAuthenticated(true);
         setUser(responseJson.user);
       })
       .catch((error) => {
+        console.log('failure1')
         setAuthenticated(false);
       })
       .finally(() => {
+        console.log('should be in both')
         setLoading(false);
       });
   };
-  console.log(loading);
+console.log(loading);
   useEffect(() => {
     authenticateUser();
-    
-  },);
+  },[]);
 
-  // useEffect(() => {
-  //   setLoading(false);
-  // }, [authenticated]);
-
-  if (loading) return null;
+ // if (loading) return null;
   return (
     <div className="App">{!authenticated ? <Login /> : <h1> Welcome</h1>}</div>
   );
