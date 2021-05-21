@@ -33,21 +33,14 @@ app.use(
   })
 );
 
-// Should this return 401 failure if not logged in?
-app.get("/", isLoggedIn, (req, res) => {
-  res.status(200).json({
-    authenticated: true,
-    message: "user successfully authenticated",
-    user: req.user,
-    cookies: req.cookies,
-  });
-});
-
-app.get("/logout", (req, res) => {
-  req.session = null;
-  req.logout();
-  res.redirect("/");
-});
+// app.get("/", isLoggedIn, (req, res) => {
+//   res.status(200).json({
+//     authenticated: true,
+//     message: "user successfully authenticated",
+//     user: req.user,
+//     cookies: req.cookies,
+//   });
+// });
 
 app.use("/auth/", authRoutes);
 

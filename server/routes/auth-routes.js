@@ -25,6 +25,12 @@ router.get("/login/failed", (req, res) => {
   });
 });
 
+router.get("/logout", (req, res) => {
+  req.session = null;
+  req.logout();
+  res.redirect(CLIENT_HOME_PAGE_URL);
+});
+
 router.get(
   "/spotify",
   passport.authenticate("spotify", {

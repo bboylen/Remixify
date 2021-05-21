@@ -3,11 +3,9 @@ import { Card, Button, Row, Col } from "antd";
 import { UserContext } from '../util/UserContext';
 
 const Login: React.FC = () => {
-  // user interface
   const user = useContext(UserContext);
-  console.log(user);
+
   const loginToSpotify = (e: any) => {
-    //What do I add here?
     e.preventDefault();
     window.open("http://localhost:3001/auth/spotify", "_self");
   };

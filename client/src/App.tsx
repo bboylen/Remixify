@@ -1,7 +1,9 @@
 import React, { useState, useEffect, createContext } from "react";
 import Login from "./components/Login";
-import Home from './components/Home';
-import { UserContext } from './util/UserContext';
+import Home from "./components/Home";
+import { UserContext } from "./util/UserContext";
+import { AuthContext } from "./util/AuthContext";
+
 import "./App.less";
 
 const App: React.FC = () => {
@@ -43,12 +45,11 @@ const App: React.FC = () => {
 
   if (loading) return null;
 
-  // need to add auth context, that way if auth changes they user gets booted back to the login page!
   return (
     <UserContext.Provider value={user}>
-      <div className="App">
-        {!authenticated ? <Login /> : <Home />}
-      </div>
+      <AuthContext.Provider value={{authenticated, setAuthenticated}}>
+        <div className="App">{!authenticated ? <Login /> : <Home />}</div>
+      </AuthContext.Provider>
     </UserContext.Provider>
   );
 };
