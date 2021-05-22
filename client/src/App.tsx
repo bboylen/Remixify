@@ -1,8 +1,9 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect } from "react";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import { UserContext } from "./util/UserContext";
 import { AuthContext } from "./util/AuthContext";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import "./App.less";
 
@@ -10,8 +11,6 @@ const App: React.FC = () => {
   const [authenticated, setAuthenticated] = useState<Boolean>(false);
   const [user, setUser] = useState<Object>({});
   const [loading, setLoading] = useState<Boolean>(true);
-
-  // add useContext to store User state
 
   const authenticateUser = async () => {
     await fetch("http://localhost:3001/auth/login/success", {
@@ -47,11 +46,13 @@ const App: React.FC = () => {
   if (loading) return null;
 
   return (
-    <UserContext.Provider value={user}>
-      <AuthContext.Provider value={{authenticated, setAuthenticated}}>
-        <div className="App">{!authenticated ? <Login /> : <Home />}</div>
-      </AuthContext.Provider>
-    </UserContext.Provider>
+    <Router>
+      <UserContext.Provider value={user}>
+        <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
+          <div className="App">{!authenticated ? <Login /> : <Home />}</div>
+        </AuthContext.Provider>
+      </UserContext.Provider>
+    </Router>
   );
 };
 
