@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Switch, Route, Link, useLocation } from "react-router-dom";
+import { Switch, Route, Link, useLocation, Redirect } from "react-router-dom";
 import { Layout, Menu, Button } from "antd";
 import { UserContext } from "../util/UserContext";
 import { Playlists } from "./Playlists";
@@ -8,16 +8,17 @@ import { StreamMusic } from "./StreamMusic";
 const { Header, Content, Footer } = Layout;
 
 const Home: React.FC = () => {
-  // user interface
   const user = useContext(UserContext);
 
   const location = useLocation();
-  console.log(location);
 
   const logoutUser = (e: any) => {
     e.preventDefault();
     window.open("http://localhost:3001/auth/logout", "_self");
   };
+
+  // Need to check auth on routes!!!
+
   return (
     <div className="main">
       <Layout>
@@ -44,6 +45,7 @@ const Home: React.FC = () => {
               <Link to="/playlists">Playlists</Link>
             </Menu.Item>
           </Menu>
+          <Button type='primary' onClick={logoutUser}>Logout</Button>
         </Header>
         <Content>
           <Switch>
@@ -51,8 +53,15 @@ const Home: React.FC = () => {
               <StreamMusic />
             </Route>
             <Route path="/playlists">
-              <Playlists />
+              <Playlists user={user}/>
             </Route>
+            <Route
+              exact
+              path="/"
+              render={() => {
+                return <Redirect to="/listen" />
+              }}
+            />
           </Switch>
         </Content>
       </Layout>
@@ -61,14 +70,3 @@ const Home: React.FC = () => {
 };
 
 export default Home;
-
-{
-  /* <PageHeader
-        className="site-page-header"
-        title="Symphony"
-        extra={[
-          <Button key="1" onClick={logoutUser}>Logout</Button>
-        ]}
-        >
-        </PageHeader> */
-}

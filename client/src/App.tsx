@@ -42,7 +42,6 @@ const App: React.FC = () => {
     authenticateUser();
   }, []);
 
-  console.log(user);
   if (loading) return null;
 
   return (
