@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// UPDATE with fields / make some optional
+// Which should be optional?
 const userSchema = new Schema({
   username: String,
+  accessToken: String,
+  refreshToken: String,
   displayName: String,
   spotifyId: String,
   profileImageUrl: String,

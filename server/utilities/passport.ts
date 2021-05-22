@@ -32,6 +32,8 @@ passport.use(
         try {
           const newUser = await new User({
             username: profile.username,
+            accessToken: accessToken,
+            refreshToken: refreshToken,
             displayName: profile.displayName,
             spotifyId: profile.id,
             profileImageUrl: profile.photos[0].value,

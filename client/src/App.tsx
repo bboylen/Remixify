@@ -4,12 +4,20 @@ import Home from "./components/Home";
 import { UserContext } from "./util/UserContext";
 import { AuthContext } from "./util/AuthContext";
 import { BrowserRouter as Router } from "react-router-dom";
+import { User } from './util/types';
 
 import "./App.less";
 
 const App: React.FC = () => {
   const [authenticated, setAuthenticated] = useState<Boolean>(false);
-  const [user, setUser] = useState<Object>({});
+  const [user, setUser] = useState<User>({
+    username: '',
+    accessToken: '',
+    refreshToken: '',
+    displayName: '',
+    spotifyId: '',
+    profileImageUrl: ''
+  });
   const [loading, setLoading] = useState<Boolean>(true);
 
   const authenticateUser = async () => {

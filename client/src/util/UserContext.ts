@@ -1,3 +1,12 @@
 import { createContext} from 'react';
+import { User } from'../util/types';
 
-export const UserContext = createContext<Object>({});
+const initialState = {
+  username: '',
+  accessToken: '',
+  refreshToken: '',
+  displayName: '',
+  spotifyId: '',
+  profileImageUrl: ''
+}
+export const UserContext = createContext<User>(initialState);
