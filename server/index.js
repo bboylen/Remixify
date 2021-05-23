@@ -25,18 +25,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // set up cors to allow us to accept requests from our client
-app.use(
-  cors()
-);
-
-// app.get("/", isLoggedIn, (req, res) => {
-//   res.status(200).json({
-//     authenticated: true,
-//     message: "user successfully authenticated",
-//     user: req.user,
-//     cookies: req.cookies,
-//   });
-// });
+  app.use(
+    cors({
+      origin: "http://localhost:3000", 
+      methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+      credentials: true 
+    })
+  );
 
 app.use("/auth/", authRoutes);
 

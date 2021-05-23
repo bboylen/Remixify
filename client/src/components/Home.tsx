@@ -4,6 +4,7 @@ import { Layout, Menu, Button } from "antd";
 import { UserContext } from "../util/UserContext";
 import { Playlists } from "./Playlists";
 import { StreamMusic } from "./StreamMusic";
+import '../styles/Home.css';
 
 const { Header, Content, Footer } = Layout;
 
@@ -22,18 +23,20 @@ const Home: React.FC = () => {
   return (
     <div className="main">
       <Layout>
-        <Header style={{ backgroundColor: "salmon", textAlign: "left" }}>
-          <h1 className="logo" style={{ display: "inline-block" }}>
+        <Header id="main-header" style={{ textAlign: "left" }}>
+          <h1 className="logo" style={{ display: "inline-block", color: 'white', }}>
             Symphony
           </h1>
           <Menu
+            id="header-nav"
             style={{
               display: "inline-block",
-              backgroundColor: "salmon",
               marginLeft: "100px",
-              height: "63px",
+              position: 'relative',
+              top: '-3px',
+              height: "64px",
             }}
-            theme="light"
+            theme="dark"
             mode="horizontal"
             defaultSelectedKeys={["/listen"]}
             selectedKeys={[location.pathname]}
@@ -45,7 +48,11 @@ const Home: React.FC = () => {
               <Link to="/playlists">Playlists</Link>
             </Menu.Item>
           </Menu>
-          <Button type='primary' onClick={logoutUser}>Logout</Button>
+          <Button type='primary' onClick={logoutUser} style={{
+            position: 'absolute',
+            right: '100px',
+            top: '16px'
+          }}>Logout</Button>
         </Header>
         <Content>
           <Switch>
