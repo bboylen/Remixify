@@ -7,7 +7,6 @@ interface PlaylistProps {
 
 export const Playlists: React.FC<PlaylistProps> = (props) => {
   const { user } = props;
-  console.log(user);
 
   const getPlaylists = () => {
     fetch(`https://api.spotify.com/v1/users/${user.spotifyId}/playlists`, {
@@ -28,9 +27,9 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       .catch((error) => console.log(error));
   };
 
-  useEffect(() => {
-    getPlaylists();
-  }, []);
+  // useEffect(() => {
+  //   getPlaylists();
+  // }, []);
 
   return <div className="Playlists">Playlists</div>;
 };

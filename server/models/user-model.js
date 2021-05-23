@@ -4,8 +4,6 @@ const Schema = mongoose.Schema;
 // Which should be optional?
 const userSchema = new Schema({
   username: String,
-  accessToken: String,
-  refreshToken: String,
   displayName: String,
   spotifyId: String,
   profileImageUrl: String,
