@@ -14,6 +14,7 @@
     "@types/react-responsive": "^8.0.2",
     "@types/react-router-dom": "^5.1.7",
     "antd": "^4.15.5",
+    "antd-mobile": "^2.3.4",
     "craco-less": "^1.17.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

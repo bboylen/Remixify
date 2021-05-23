@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Menu } from "antd";
+import { Menu, Dropdown } from "antd";
 
 interface Props {
   location: any
@@ -9,15 +9,11 @@ interface Props {
 export const NavbarDropdown: React.FC<any> = (props) => {
   const { location } = props;
 
-  return (
-    <Menu
+  const menu = (
+<Menu
       id="header-nav"
       style={{
-        display: "inline-block",
-        marginLeft: "100px",
-        position: "relative",
-        top: "-3px",
-        height: "64px",
+        
       }}
       theme="dark"
       mode="horizontal"
@@ -31,5 +27,15 @@ export const NavbarDropdown: React.FC<any> = (props) => {
         <Link to="/playlists">Playlists</Link>
       </Menu.Item>
     </Menu>
+  )
+  return (
+    <Dropdown overlay={menu} trigger={['click']}>
+    <a className="ant-dropdown-link" onClick={e => e.preventDefault()} style={{
+      marginLeft: '10%',
+
+    }}>
+      Menu
+    </a>
+  </Dropdown>
   );
 };

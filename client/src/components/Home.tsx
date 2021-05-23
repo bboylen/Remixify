@@ -6,6 +6,8 @@ import { Playlists } from "./Playlists";
 import { StreamMusic } from "./StreamMusic";
 import { useMediaQuery } from "react-responsive";
 import { NavbarMenu } from "./Navbar/NavbarMenu";
+import { NavbarDropdown } from "./Navbar/NavbarDropdown";
+
 import "../styles/Home.css";
 
 const { Header, Content, Footer } = Layout;
@@ -44,13 +46,15 @@ const Home: React.FC = () => {
           <DesktopNav>
             <NavbarMenu location={location} />
           </DesktopNav>
-          <PhoneNav>FDFSDFSdf</PhoneNav>
+          <PhoneNav>
+            <NavbarDropdown location={location} />
+          </PhoneNav>
           <Button
             type="primary"
             onClick={logoutUser}
             style={{
               position: "absolute",
-              right: "100px",
+              right: "10%",
               top: "16px",
             }}
           >
