@@ -12,7 +12,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="Login">
-        <Row justify={"center"} style={{ paddingTop: "200px" }}>
+        <Row justify={"center"} style={{ paddingTop: "15%" }}>
           <Col>
             <Card
               title="Login to Symphony"
