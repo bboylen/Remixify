@@ -16,6 +16,7 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
+// Update access token if different on User?
 passport.use(
   new SpotifyStrategy(
     {

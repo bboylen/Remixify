@@ -8,7 +8,6 @@ router.get("/login/success", (req, res) => {
       success: true,
       message: "user has successfully authenticated",
       user: req.user,
-      cookies: req.cookies,
     });
   } else {
     res.status(401).json({
@@ -26,6 +25,7 @@ router.get("/login/failed", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
+  console.log(req);
   req.session = null;
   req.logout();
   res.redirect(CLIENT_HOME_PAGE_URL);

@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const cookieSession = require("cookie-session");
+const cookieParser = require('cookie-parser');
 const passport = require("passport");
 const isLoggedIn = require("./middleware/auth.ts");
 const connectDB = require("./config/db");
@@ -15,6 +16,7 @@ connectDB();
 const app = express();
 
 // need different cookie keys?
+app.use(cookieParser());
 app.use(
   cookieSession({
     name: "spotify-auth-session",

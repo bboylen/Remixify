@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "connect-mongo": "^4.4.1",
+    "cookie-parser": "^1.4.5",
     "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "mongoose": "^5.12.9",
