@@ -9,12 +9,11 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
   const { user } = props;
 
   const getPlaylists = () => {
-    fetch(`https://api.spotify.com/v1/users/${user.spotifyId}/playlists`, {
+    fetch(`http://localhost:3001/spotify/playlists`, {
       method: "GET",
-      credentials: 'omit',
-      mode: 'cors',
+      credentials: 'include',
       headers: {
-        Authentication: 'Bearer ' + user.accessToken,
+        
       },
     })
       .then((response) => {
@@ -27,9 +26,9 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       .catch((error) => console.log(error));
   };
 
-  // useEffect(() => {
-  //   getPlaylists();
-  // }, []);
+  useEffect(() => {
+    getPlaylists();
+  }, []);
 
   return <div className="Playlists">Playlists</div>;
 };

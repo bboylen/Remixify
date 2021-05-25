@@ -6,6 +6,7 @@ const passport = require("passport");
 const isLoggedIn = require("./middleware/auth.ts");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth-routes");
+const spotifyRoutes = require("./routes/spotify-api-routes");
 const cors = require('cors');
 require("./utilities/passport.ts");
 
@@ -36,6 +37,7 @@ app.use(passport.session());
   );
 
 app.use("/auth/", authRoutes);
+app.use("/spotify/", spotifyRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);

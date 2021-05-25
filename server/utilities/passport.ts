@@ -47,6 +47,11 @@ passport.use(
         }
       }
 
+      if (currentUser.accessToken != accessToken) {
+        currentUser.accessToken = accessToken;
+        await currentUser.save();
+      }
+
       return done(null, currentUser);
     }
   )
