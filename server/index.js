@@ -16,7 +16,6 @@ connectDB();
 
 const app = express();
 
-// need different cookie keys?
 app.use(cookieParser());
 app.use(
   cookieSession({
@@ -36,6 +35,7 @@ app.use(passport.session());
     })
   );
 
+  // Need to look into accesstoken expiring!!
 app.use("/auth/", authRoutes);
 app.use("/spotify/", spotifyRoutes);
 

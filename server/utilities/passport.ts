@@ -51,7 +51,6 @@ passport.use(
         currentUser.accessToken = accessToken;
         await currentUser.save();
       }
-
       return done(null, currentUser);
     }
   )
