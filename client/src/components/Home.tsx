@@ -35,7 +35,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="main">
-      <Layout>
+      <Layout style={{height: '100vh'}}>
         <Header id="main-header" style={{ textAlign: "left" }}>
           <h1
             className="logo"
