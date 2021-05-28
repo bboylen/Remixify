@@ -16,11 +16,14 @@ connectDB();
 
 const app = express();
 
+app.use(express.urlencoded({extended: true})); 
+app.use(express.json());
 app.use(cookieParser());
 app.use(
   cookieSession({
     name: "spotify-auth-session",
     keys: ["key1", "key2"],
+    maxAge: 36000000
   })
 );
 app.use(passport.initialize());
