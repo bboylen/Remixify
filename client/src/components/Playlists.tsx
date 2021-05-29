@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { User } from "../util/types";
-import { Layout, Menu, Button, List } from "antd";
+import { Layout, Menu, Button, List, AutoComplete } from "antd";
 import {
   UserOutlined,
   LaptopOutlined,
@@ -67,9 +67,11 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
     <div className="Playlists" style={{ height: "100%" }}>
       <Layout style={{ height: "100%" }}>
         <Sider
-          width={200}
+          width={300}
           className="site-layout-background"
-          style={{ height: "100%" }}
+          collapsible={true}
+          theme={'light'}
+          style={{ height: "100%", overflow: 'auto' }}
         >
           <Menu
             mode="inline"
@@ -80,7 +82,9 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
           >
             <SubMenu key="sub1" icon={<UserOutlined />} title="Your Playlists">
               {userPlaylists.map((playlist: any) => {
-                return <Menu.Item key={playlist.id}>{playlist.name}</Menu.Item>;
+                return <Menu.Item key={playlist.id} style={{
+                  padding: '0px 5px 0px 15px',
+                }}>{playlist.name}</Menu.Item>;
               })}
             </SubMenu>
             <SubMenu
@@ -96,13 +100,18 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
             padding: 24,
             margin: 0,
             minHeight: 280,
+            height: '100%',
           }}
         >
           {selectedPlaylist && <List
             header={<div>{selectedPlaylist.name}</div>}
-            bordered
+            bordered={true}
             dataSource={selectedPlaylist.tracks.items}
             renderItem={(song: any) => <List.Item>{song.track.name}</List.Item>}
+            style={{
+              height: '100%',
+              overflow: 'auto',
+            }}
           />}
           Fu
         </Content>
