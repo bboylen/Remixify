@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { User } from "../util/types";
-import { Layout, Menu, Button, List, Typography } from "antd";
+import { Layout, Menu, Button, List, Typography, Table } from "antd";
 import {
   UserOutlined,
   LaptopOutlined,
   NotificationOutlined,
 } from "@ant-design/icons";
-import '../styles/Playlists.css'
+import "../styles/Playlists.css";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -20,6 +20,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
   const { user } = props;
   const [userPlaylists, setUserPlaylists] = useState<any>([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState<any>();
+  const [playlistData, setPlaylistData] = useState<any>([]);
 
   const getPlaylists = () => {
     fetch(`http://localhost:3001/spotify/playlists`, {
@@ -65,6 +66,28 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
   useEffect(() => {
     getPlaylists();
   }, []);
+
+  useEffect(() => {
+    if (selectedPlaylist) {
+      console.log(selectedPlaylist);
+      let data = selectedPlaylist.tracks.items.map((song: any) => {
+        return {
+          key: song.track.id,
+          songName: song.track.name,
+        };
+      });
+      setPlaylistData(data);
+    }
+  }, [selectedPlaylist]);
+
+  const columns = [
+    {
+      title: "Name",
+      dataIndex: "songName",
+      key: "name",
+    },
+  ];
+
   return (
     <div className="Playlists" style={{ height: "100%" }}>
       <Layout style={{ height: "100%" }}>
@@ -73,8 +96,8 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
           className="site-layout-background"
           collapsible={true}
           collapsedWidth={40}
-          theme={'light'}
-          style={{ height: "100%", overflow: 'auto' }}
+          theme={"light"}
+          style={{ height: "100%", overflow: "auto" }}
         >
           <Menu
             mode="inline"
@@ -85,9 +108,16 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
           >
             <SubMenu key="sub1" icon={<UserOutlined />} title="Your Playlists">
               {userPlaylists.map((playlist: any) => {
-                return <Menu.Item key={playlist.id} style={{
-                  padding: '0px 5px 0px 15px',
-                }}>{playlist.name}</Menu.Item>;
+                return (
+                  <Menu.Item
+                    key={playlist.id}
+                    style={{
+                      padding: "0px 5px 0px 15px",
+                    }}
+                  >
+                    {playlist.name}
+                  </Menu.Item>
+                );
               })}
             </SubMenu>
             <SubMenu
@@ -103,22 +133,13 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
             padding: 24,
             margin: 0,
             minHeight: 280,
-            height: '100%',
-            backgroundColor: 'white'
+            height: "100%",
+            backgroundColor: "white",
           }}
         >
-         
-          {selectedPlaylist && <List
-            header={<Title level={3} style={{marginBottom: '0', position: 'sticky'}}>{selectedPlaylist.name}</Title>}
-            bordered={true}
-            dataSource={selectedPlaylist.tracks.items}
-            renderItem={(song: any) => <List.Item>{song.track.name}</List.Item>}
-            style={{
-              height: '100%',
-              overflow: 'auto',
-              border: 'none',
-            }}
-          />}
+          {selectedPlaylist && (
+            <Table dataSource={playlistData} columns={columns} sticky={true} />
+          )}
         </Content>
       </Layout>
     </div>
