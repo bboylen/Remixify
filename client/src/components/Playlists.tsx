@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { User } from "../util/types";
-import { Layout, Menu, Button, List, AutoComplete } from "antd";
+import { Layout, Menu, Button, List, Typography } from "antd";
 import {
   UserOutlined,
   LaptopOutlined,
   NotificationOutlined,
 } from "@ant-design/icons";
+import '../styles/Playlists.css'
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
+const { Title } = Typography;
 
 interface PlaylistProps {
   user: User;
@@ -70,6 +72,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
           width={300}
           className="site-layout-background"
           collapsible={true}
+          collapsedWidth={40}
           theme={'light'}
           style={{ height: "100%", overflow: 'auto' }}
         >
@@ -101,19 +104,21 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
             margin: 0,
             minHeight: 280,
             height: '100%',
+            backgroundColor: 'white'
           }}
         >
+         
           {selectedPlaylist && <List
-            header={<div>{selectedPlaylist.name}</div>}
+            header={<Title level={3} style={{marginBottom: '0', position: 'sticky'}}>{selectedPlaylist.name}</Title>}
             bordered={true}
             dataSource={selectedPlaylist.tracks.items}
             renderItem={(song: any) => <List.Item>{song.track.name}</List.Item>}
             style={{
               height: '100%',
               overflow: 'auto',
+              border: 'none',
             }}
           />}
-          Fu
         </Content>
       </Layout>
     </div>
