@@ -92,7 +92,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
             </SubMenu>
             <SubMenu
               key="sub2"
-              icon={<UserOutlined />}
+              icon={<LaptopOutlined />}
               title="Generated Playlists"
             ></SubMenu>
           </Menu>
