@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { User } from "../util/types";
 import { Layout, Menu, Typography, Table } from "antd";
-import {
-  UserOutlined,
-} from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import "../styles/Playlists.css";
+import { PageHeader } from "antd";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -72,6 +71,8 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
         return {
           key: song.track.id,
           songName: song.track.name,
+          artist: song.track.artists[0].name,
+          album: song.track.album.name,
         };
       });
       setPlaylistData(data);
@@ -80,9 +81,19 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
 
   const columns = [
     {
-      title: "Name",
+      title: "Title",
       dataIndex: "songName",
       key: "name",
+    },
+    {
+      title: "Artist",
+      dataIndex: "artist",
+      key: "artist",
+    },
+    {
+      title: "Album",
+      dataIndex: "album",
+      key: "album",
     },
   ];
 
@@ -135,8 +146,15 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
             backgroundColor: "white",
           }}
         >
+           <PageHeader title={selectedPlaylist.name} />
           {selectedPlaylist && (
-            <Table dataSource={playlistData} columns={columns} sticky={true} pagination={{ pageSize: 1000, position: [] }} scroll={{ y: '80vh' }}  />
+            <Table
+              dataSource={playlistData}
+              columns={columns}
+              sticky={true}
+              pagination={{ pageSize: 1000, position: [] }}
+              scroll={{ y: "77vh" }}
+            />
           )}
         </Content>
       </Layout>
