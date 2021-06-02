@@ -55,9 +55,15 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       .catch((error) => console.log(error));
   };
 
-  const selectPlaylist = (playlist: any) => {
-    getPlaylist(playlist.key);
+  const selectPlaylist = (playlistKey: any) => {
+    getPlaylist(playlistKey);
   };
+
+  useEffect(() => {
+    if (userPlaylists.length > 0) {
+      selectPlaylist(userPlaylists[0].id)
+    }
+  }, [userPlaylists]);
 
   useEffect(() => {
     getPlaylists();
@@ -109,10 +115,9 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
         >
           <Menu
             mode="inline"
-            defaultSelectedKeys={["1"]}
             defaultOpenKeys={["sub1"]}
             style={{ height: "100%", borderRight: 0 }}
-            onClick={(playlist) => selectPlaylist(playlist)}
+            onClick={(playlist) => selectPlaylist(playlist.key)}
           >
             <SubMenu key="sub1" icon={<UserOutlined />} title="Your Playlists">
               {userPlaylists.map((playlist: any) => {
