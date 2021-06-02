@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { User } from "../util/types";
 import { Layout, Menu, Typography, Table } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, LaptopOutlined } from "@ant-design/icons";
 import "../styles/Playlists.css";
 import { PageHeader } from "antd";
 
@@ -146,7 +146,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
             backgroundColor: "white",
           }}
         >
-           <PageHeader title={selectedPlaylist.name} />
+          {selectedPlaylist && <PageHeader title={selectedPlaylist.name} /> } 
           {selectedPlaylist && (
             <Table
               dataSource={playlistData}
