@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { User } from "../util/types";
-import { Layout, Menu, Button, List, Typography, Table } from "antd";
+import { Layout, Menu, Typography, Table } from "antd";
 import {
   UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
 } from "@ant-design/icons";
 import "../styles/Playlists.css";
 
@@ -138,7 +136,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
           }}
         >
           {selectedPlaylist && (
-            <Table dataSource={playlistData} columns={columns} sticky={true} />
+            <Table dataSource={playlistData} columns={columns} sticky={true} pagination={{ pageSize: 1000, position: [] }} scroll={{ y: '80vh' }}  />
           )}
         </Content>
       </Layout>
