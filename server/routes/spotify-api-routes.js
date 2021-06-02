@@ -21,7 +21,6 @@ router.get("/playlists", (req, res) => {
 });
 
 router.post("/playlist", (req, res) => {
-  console.log(req);
   setUpSpotifyApi(req).then((spotifyApi) => {
     spotifyApi.getPlaylist(req.body.id).then(
       (data) => {
