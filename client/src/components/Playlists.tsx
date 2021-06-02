@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { User } from "../util/types";
-import { Layout, Menu, Typography, Table } from "antd";
+import { Layout, Menu, Typography, Table, Button } from "antd";
 import { UserOutlined, LaptopOutlined } from "@ant-design/icons";
 import "../styles/Playlists.css";
 import { PageHeader } from "antd";
@@ -50,7 +50,6 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
         throw new Error("failed to fetch user playlist");
       })
       .then((responseJson) => {
-        console.log(responseJson);
         setSelectedPlaylist(responseJson.playlist);
       })
       .catch((error) => console.log(error));
@@ -146,7 +145,12 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
             backgroundColor: "white",
           }}
         >
-          {selectedPlaylist && <PageHeader title={selectedPlaylist.name} /> } 
+          {selectedPlaylist && (
+            <PageHeader
+              title={selectedPlaylist.name}
+              extra={[<Button size={'large'} danger type={'primary'}>Remix</Button>]}
+            />
+          )}
           {selectedPlaylist && (
             <Table
               dataSource={playlistData}
