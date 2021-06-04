@@ -120,6 +120,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
           <Menu
             mode="inline"
             defaultOpenKeys={["sub1"]}
+            defaultSelectedKeys={[userPlaylists[0].id]}
             style={{ height: "100%", borderRight: 0 }}
             onClick={(playlist) => selectPlaylist(playlist.key)}
           >
