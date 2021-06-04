@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // Which should be optional?
-const userSchema = new Schema({
+const user = new Schema({
   username: String,
   accessToken: String,
   refreshToken: String,
@@ -11,6 +11,6 @@ const userSchema = new Schema({
   profileImageUrl: String,
 });
 
-const User = mongoose.model('user', userSchema);
+const User = mongoose.model('user', user);
 
 module.exports = User;

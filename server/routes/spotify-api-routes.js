@@ -2,6 +2,7 @@ const SpotifyWebApi = require("spotify-web-api-node");
 const setUpSpotifyApi = require("../utilities/spotifyWebApi");
 const router = require("express").Router();
 const User = require("../models/user-model");
+const {Playlist, Song} = require("../models/playlist-model");
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 
 router.get("/playlists", (req, res) => {
@@ -35,4 +36,12 @@ router.post("/playlist", (req, res) => {
     );
   });
 });
+
+router.post("/remix", (req, res) => {
+  // Creates new playlist on spotify
+  // Creates playlist model
+  // Populate playlist
+  // Populate playlist model
+  // Returns model info (or spotifys?)
+})
 module.exports = router;

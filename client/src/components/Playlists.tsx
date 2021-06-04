@@ -32,9 +32,11 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       .then((responseJson) => {
         console.log(responseJson);
         setUserPlaylists(responseJson.playlists.items);
-        setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const getPlaylist = (playlistId: string) => {
@@ -63,7 +65,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
 
   useEffect(() => {
     if (userPlaylists.length > 0) {
-      selectPlaylist(userPlaylists[0].id)
+      selectPlaylist(userPlaylists[0].id);
     }
   }, [userPlaylists]);
 
@@ -158,7 +160,11 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
           {selectedPlaylist && (
             <PageHeader
               title={selectedPlaylist.name}
-              extra={[<Button size={'large'} danger type={'primary'}>Remix</Button>]}
+              extra={[
+                <Button size={"large"} danger type={"primary"}>
+                  Remix
+                </Button>,
+              ]}
             />
           )}
           {selectedPlaylist && (
