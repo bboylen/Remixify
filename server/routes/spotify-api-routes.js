@@ -1,5 +1,5 @@
 const SpotifyWebApi = require("spotify-web-api-node");
-const setUpSpotifyApi = require("../middleware/spotifyWebApi");
+const setUpSpotifyApi = require("../utilities/spotifyWebApi");
 const router = require("express").Router();
 const User = require("../models/user-model");
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000";

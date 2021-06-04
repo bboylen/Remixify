@@ -18,6 +18,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
   const [userPlaylists, setUserPlaylists] = useState<any>([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState<any>();
   const [playlistData, setPlaylistData] = useState<any>([]);
+  const [loading, setLoading] = useState<Boolean>(true);
 
   const getPlaylists = () => {
     fetch(`http://localhost:3001/spotify/playlists`, {
@@ -31,6 +32,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       .then((responseJson) => {
         console.log(responseJson);
         setUserPlaylists(responseJson.playlists.items);
+        setLoading(false);
       })
       .catch((error) => console.log(error));
   };
@@ -101,6 +103,8 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       key: "album",
     },
   ];
+
+  if (loading) return null;
 
   return (
     <div className="Playlists" style={{ height: "100%" }}>

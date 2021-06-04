@@ -3,7 +3,7 @@ require("dotenv").config();
 const cookieSession = require("cookie-session");
 const cookieParser = require('cookie-parser');
 const passport = require("passport");
-const isLoggedIn = require("./middleware/auth.ts");
+const isLoggedIn = require("./middleware/auth.js");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth-routes");
 const spotifyRoutes = require("./routes/spotify-api-routes");
