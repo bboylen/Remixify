@@ -2,7 +2,7 @@ const SpotifyWebApi = require("spotify-web-api-node");
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 const User = require("../models/user-model");
 
-const setUpSpotifyApi = async function (req) {
+const setUpSpotifyApi = async function (username) {
   const spotifyApi = new SpotifyWebApi({
     clientID: process.env.SPOTIFY_ID,
     clientSecret: process.env.SPOTIFY_SECRET,
@@ -10,7 +10,7 @@ const setUpSpotifyApi = async function (req) {
   });
 
   const currentUser = await User.findOne({
-    username: req.user.username,
+    username: username,
   });
 
   spotifyApi.setAccessToken(currentUser.accessToken);

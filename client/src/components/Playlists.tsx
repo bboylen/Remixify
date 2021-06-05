@@ -59,6 +59,30 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       .catch((error) => console.log(error));
   };
 
+  const remixPlaylist = (playlistId: string, playlistName: string) => {
+    fetch(`http://localhost:3001/spotify/remix`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ playlistId: playlistId, playlistName: playlistName }),
+    })
+    .then((response) => {
+      if (response.status === 200) return response.json();
+      throw new Error("failed to remix user playlist");
+    })
+    .then((responseJson) => {
+      // nothing right now 
+    })
+    .catch((error) => console.log(error));
+  }
+
+  const handleRemix = () => {
+    remixPlaylist(selectedPlaylist.id, selectedPlaylist.name);
+  };
+
   const selectPlaylist = (playlistKey: any) => {
     getPlaylist(playlistKey);
   };
@@ -161,7 +185,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
             <PageHeader
               title={selectedPlaylist.name}
               extra={[
-                <Button size={"large"} danger type={"primary"}>
+                <Button onClick={handleRemix} size={"large"} danger type={"primary"}>
                   Remix
                 </Button>,
               ]}
