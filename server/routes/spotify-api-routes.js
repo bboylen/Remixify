@@ -46,22 +46,19 @@ router.post("/playlist", (req, res) => {
     });
 });
 
-router.post("/remix", (req, res) => {
+router.post("/remix", async (req, res) => {
   // MAKE ASYNCHRONOUS?
 
   // Creates new playlist on spotify
   const newPlaylistId = createPlaylist(req.body.playlistName,req.user.username);
   // console.log(newPlaylistId);
   // Fetch song information
-  const oldTracks = getOldTracks(req.body.playlistId, req.user.username).then((data) => {
-    console.log(data);
+  const oldTracks = await getOldTracks(req.body.playlistId, req.user.username).then((data) => {
+    console.log('returned to original call',data);
     return data;
-  }).then((rdata) => {
-    console.log(rdata);
-    return rdata;
-  }).catch((err) => {console.log(err)});
+  }).catch((err) => {console.log('this is an error',err)});
 
-  console.log(oldTracks);
+  // console.log(oldTracks);
   // Creates playlist model
 
   // Populate playlist

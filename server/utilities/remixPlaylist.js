@@ -26,21 +26,21 @@ const createPlaylist = (playlistName, userName) => {
     });
 };
 
-const getOldTracks = (playlistId, userName) => {
-  return setUpSpotifyApi(userName)
-    .then((spotifyApi) => {
-      spotifyApi.getPlaylist(playlistId).then(
-        (data) => {
-          return data.body.tracks.items;
-        },
-        (err) => {
-          console.log("Error grabbing playlist", err);
-        }
-      );
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+const getOldTracks = async (playlistId, userName) => {
+  let trackList = null;
+  const spotifyApi = await setUpSpotifyApi(userName);
+  await spotifyApi.getPlaylist(playlistId).then(
+    (data) => {
+      console.log('in spotify api call',data.body.tracks.items)
+      trackList = data.body.tracks.items;
+     // return data.body.tracks.items;
+    },
+    (err) => {
+      console.log("Error grabbing playlist", err);
+    }
+  );
+  console.log('after await',trackList);
+  return trackList
 };
 
 module.exports = { createPlaylist, getOldTracks };
