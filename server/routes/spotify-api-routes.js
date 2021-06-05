@@ -50,15 +50,12 @@ router.post("/remix", async (req, res) => {
   // MAKE ASYNCHRONOUS?
 
   // Creates new playlist on spotify
-  const newPlaylistId = createPlaylist(req.body.playlistName,req.user.username);
-  // console.log(newPlaylistId);
-  // Fetch song information
-  const oldTracks = await getOldTracks(req.body.playlistId, req.user.username).then((data) => {
-    console.log('returned to original call',data);
-    return data;
-  }).catch((err) => {console.log('this is an error',err)});
+  const newPlaylistId = await createPlaylist(req.body.playlistName,req.user.username);
+  console.log(newPlaylistId);
 
-  // console.log(oldTracks);
+  // Fetch song information
+  const oldTracks = await getOldTracks(req.body.playlistId, req.user.username)
+  console.log(oldTracks);
   // Creates playlist model
 
   // Populate playlist
