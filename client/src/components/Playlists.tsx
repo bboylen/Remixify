@@ -47,7 +47,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id: playlistId }),
+      body: JSON.stringify({ playlistId: playlistId }),
     })
       .then((response) => {
         if (response.status === 200) return response.json();
