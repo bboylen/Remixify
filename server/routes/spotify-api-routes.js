@@ -51,12 +51,16 @@ router.post("/remix", (req, res) => {
 
   // Creates new playlist on spotify
   const newPlaylistId = createPlaylist(req.body.playlistName,req.user.username);
-  console.log(newPlaylistId);
+  // console.log(newPlaylistId);
   // Fetch song information
   const oldTracks = getOldTracks(req.body.playlistId, req.user.username).then((data) => {
     console.log(data);
     return data;
-  });
+  }).then((rdata) => {
+    console.log(rdata);
+    return rdata;
+  }).catch((err) => {console.log(err)});
+
   console.log(oldTracks);
   // Creates playlist model
 
