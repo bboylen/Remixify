@@ -1,6 +1,6 @@
 const SpotifyWebApi = require("spotify-web-api-node");
 const setUpSpotifyApi = require("../utilities/spotifyWebApi");
-const { createPlaylist, getOldTracks } = require("../utilities/remixPlaylist");
+const { createPlaylist, getOldTracks, getRemixedSongs } = require("../utilities/remixPlaylist");
 const router = require("express").Router();
 const User = require("../models/user-model");
 const { Playlist, Song } = require("../models/playlist-model");
@@ -55,8 +55,10 @@ router.post("/remix", async (req, res) => {
 
   // Fetch song information
   const oldTracks = await getOldTracks(req.body.playlistId, req.user.username)
-  console.log(oldTracks);
-  // Creates playlist model
+  //console.log(oldTracks);
+
+  // Create/populate playlist model
+  getRemixedSongs(oldTracks, req.user.username);
 
   // Populate playlist
   // Populate playlist model
