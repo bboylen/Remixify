@@ -9,7 +9,9 @@ const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 router.get("/playlists", (req, res) => {
   setUpSpotifyApi(req.user.username)
     .then((spotifyApi) => {
-      spotifyApi.getUserPlaylists(req.user.username).then(
+      spotifyApi.getUserPlaylists(req.user.username, {
+        limit: 50
+      }).then(
         (data) => {
           res.status(200).json({
             success: true,
@@ -47,8 +49,6 @@ router.post("/playlist", (req, res) => {
 });
 
 router.post("/remix", async (req, res) => {
-  // MAKE ASYNCHRONOUS?
-
   // Creates new playlist on spotify
   const newPlaylistId = await createPlaylist(req.body.playlistName,req.user.username);
   console.log(newPlaylistId);

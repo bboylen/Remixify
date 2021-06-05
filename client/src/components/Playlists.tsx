@@ -99,7 +99,6 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
 
   useEffect(() => {
     if (selectedPlaylist) {
-      console.log(selectedPlaylist);
       let data = selectedPlaylist.tracks.items.map((song: any) => {
         return {
           key: song.track.id,
