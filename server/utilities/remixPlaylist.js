@@ -5,14 +5,36 @@ const createPlaylist = (playlistName, userName) => {
   const newPlaylistName = `${playlistName} Remix`;
   const description = `A remix of ${playlistName}. Same artists - different songs!`;
 
-  setUpSpotifyApi(userName)
+  return setUpSpotifyApi(userName)
     .then((spotifyApi) => {
-      spotifyApi.createPlaylist(newPlaylistName, {'description': description, 'public': true}).then(
+      spotifyApi
+        .createPlaylist(newPlaylistName, {
+          description: description,
+          public: true,
+        })
+        .then(
+          (data) => {
+            return data.body.id;
+          },
+          (err) => {
+            console.log("Error creating playlist", err);
+          }
+        );
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+const getOldTracks = (playlistId, userName) => {
+  return setUpSpotifyApi(userName)
+    .then((spotifyApi) => {
+      spotifyApi.getPlaylist(playlistId).then(
         (data) => {
-          console.log('Created Playlist!');
+          return data.body.tracks.items;
         },
         (err) => {
-          console.log("Error creating playlist", err);
+          console.log("Error grabbing playlist", err);
         }
       );
     })
@@ -21,4 +43,4 @@ const createPlaylist = (playlistName, userName) => {
     });
 };
 
-module.exports = {createPlaylist}
+module.exports = { createPlaylist, getOldTracks };
