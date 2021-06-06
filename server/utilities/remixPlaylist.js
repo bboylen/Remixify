@@ -1,6 +1,6 @@
 const SpotifyWebApi = require("spotify-web-api-node");
 const setUpSpotifyApi = require("./spotifyWebApi");
-const { Playlist } = require("../models/playlist-model");
+const { Playlist, Song } = require("../models/playlist-model");
 
 const createPlaylist = async (playlistName, userName) => {
   const newPlaylistName = `${playlistName} Remix`;
@@ -40,7 +40,6 @@ const getOldTracks = async (playlistId, userName) => {
 
 const getRemixedSongs = async (oldTracks, userName) => {
   const artistIds = oldTracks.map((track) => track.track.artists[0].id);
-  console.log(artistIds);
 
   const spotifyApi = await setUpSpotifyApi(userName);
   const newTracks = [];
@@ -49,18 +48,18 @@ const getRemixedSongs = async (oldTracks, userName) => {
     await spotifyApi.getArtistTopTracks(artistIds[i], "US").then(
       (topTracks) => {
         const tracks = topTracks.body.tracks;
-        console.log(tracks);
-        const filteredTracks = tracks.filter((track) => {
-          console.log(track.id)
-          let isDuplicate = newTracks.some((newTrack) => newTrack.id === track.id)
-          console.log(isDuplicate);
-          return isDuplicate;
-          // for (let j = 0; j < newTracks.length; j++) {
-          //   console.log(newTracks);
-          //   if (track.id === newTracks[j].id) return false;
-          //   else return true;
-          // }
-        });
+        const filteredTracks = tracks;
+        // const filteredTracks = tracks.filter((track) => {
+        //   console.log(track.id)
+        //   let isDuplicate = newTracks.some((newTrack) => newTrack.id === track.id)
+        //   console.log(isDuplicate);
+        //   return isDuplicate;
+        //   // for (let j = 0; j < newTracks.length; j++) {
+        //   //   console.log(newTracks);
+        //   //   if (track.id === newTracks[j].id) return false;
+        //   //   else return true;
+        //   // }
+        // });
         //console.log(filteredTracks);
         const selectedTrack =
           filteredTracks[Math.floor(Math.random() * filteredTracks.length)];
@@ -71,9 +70,24 @@ const getRemixedSongs = async (oldTracks, userName) => {
       }
     );
   }
-  console.log(newTracks);
+  return newTracks;
 };
 
-const createRemixedPlaylist = () => {};
+const createRemixedPlaylist = async (newPlaylistId, remixedSongs) => {
+  const newSongs = [];
+  for (i = 0; i < remixedSongs.length; i++) {
+    try {
+    const newSong = await new Song({
+      spotifyId: remixedSongs[i].id,
+      name: remixedSongs[i].name,
+      artist: remixedSongs[i].artists[0].name,
+      album: remixedSongs[i].album.name
+    }).save();
+    newSongs.push(newSong);
+  } catch (err) {
+    console.log(err);
+  }}
+  return newSongs;
+};
 
-module.exports = { createPlaylist, getOldTracks, getRemixedSongs };
+module.exports = { createPlaylist, getOldTracks, getRemixedSongs, createRemixedPlaylist };
