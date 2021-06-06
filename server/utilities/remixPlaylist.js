@@ -2,10 +2,7 @@ const SpotifyWebApi = require("spotify-web-api-node");
 const setUpSpotifyApi = require("./spotifyWebApi");
 const { Playlist, Song } = require("../models/playlist-model");
 
-const createPlaylist = async (playlistName, userName) => {
-  const newPlaylistName = `${playlistName} Remix`;
-  const description = `A remix of ${playlistName}. Same artists - different songs!`;
-
+const createPlaylist = async (newPlaylistName, description, userName) => {
   const spotifyApi = await setUpSpotifyApi(userName);
   const playlistId = await spotifyApi
     .createPlaylist(newPlaylistName, {
@@ -38,7 +35,7 @@ const getOldTracks = async (playlistId, userName) => {
   return trackList;
 };
 
-const getRemixedSongs = async (oldTracks, userName) => {
+const createRemixedSongs = async (oldTracks, userName) => {
   const artistIds = oldTracks.map((track) => track.track.artists[0].id);
 
   const spotifyApi = await setUpSpotifyApi(userName);
@@ -73,21 +70,57 @@ const getRemixedSongs = async (oldTracks, userName) => {
   return newTracks;
 };
 
-const createRemixedPlaylist = async (newPlaylistId, remixedSongs) => {
+const createRemixedPlaylist = async (
+  newPlaylistId,
+  newPlaylistName,
+  remixedSongs
+) => {
   const newSongs = [];
   for (i = 0; i < remixedSongs.length; i++) {
     try {
-    const newSong = await new Song({
-      spotifyId: remixedSongs[i].id,
-      name: remixedSongs[i].name,
-      artist: remixedSongs[i].artists[0].name,
-      album: remixedSongs[i].album.name
+      const newSong = await new Song({
+        spotifyId: remixedSongs[i].id,
+        name: remixedSongs[i].name,
+        artist: remixedSongs[i].artists[0].name,
+        album: remixedSongs[i].album.name,
+      }).save();
+      newSongs.push(newSong);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  try {
+    const newPlaylist = await new Playlist({
+      spotifyId: newPlaylistId,
+      name: newPlaylistName,
+      songs: newSongs,
     }).save();
-    newSongs.push(newSong);
+    if (newPlaylist) return newPlaylist;
   } catch (err) {
     console.log(err);
-  }}
-  return newSongs;
+  }
 };
 
-module.exports = { createPlaylist, getOldTracks, getRemixedSongs, createRemixedPlaylist };
+const populateRemixPlaylist = async (playlistId, remixedSongs, userName) => {
+  const remixedSongIds = remixedSongs.map((song) => song.uri);
+
+  const spotifyApi = await setUpSpotifyApi(userName);
+  await spotifyApi
+    .addTracksToPlaylist(playlistId, remixedSongIds)
+    .then(
+      () => {
+      },
+      (err) => {
+        console.log("Error adding songs to playlist", err);
+      }
+    );
+};
+
+module.exports = {
+  createPlaylist,
+  getOldTracks,
+  createRemixedSongs,
+  createRemixedPlaylist,
+  populateRemixPlaylist,
+};
