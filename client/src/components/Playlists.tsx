@@ -79,8 +79,9 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
     .catch((error) => console.log(error));
   }
 
-  const handleRemix = () => {
-    remixPlaylist(selectedPlaylist.id, selectedPlaylist.name);
+  const handleRemix = async () => {
+    await remixPlaylist(selectedPlaylist.id, selectedPlaylist.name);
+    getPlaylists();
   };
 
   const selectPlaylist = (playlistKey: any) => {

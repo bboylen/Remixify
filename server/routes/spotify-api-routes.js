@@ -57,6 +57,8 @@ router.post("/playlist", (req, res) => {
 });
 
 router.post("/remix", async (req, res) => {
+  // How to handle errors in this route? 
+  
   // Creates new playlist on spotify
   const newPlaylistName = `${req.body.playlistName} Remix`;
   const description = `A remix of ${req.body.playlistName}. Same artists - different songs!`;
@@ -80,7 +82,20 @@ router.post("/remix", async (req, res) => {
   );
 
   // Populate playlist
-  await populateRemixPlaylist(newPlaylistId, remixedSongs, req.user.username);
+  const playlistPopulationSuccess = await populateRemixPlaylist(newPlaylistId, remixedSongs, req.user.username);
+    console.log(playlistPopulationSuccess);
+
+  if (playlistPopulationSuccess) {
+    res.status(200).json({
+      success: true,
+      message: "Playlist remix successful",
+    });
+  } else {
+    res.status(500).json({
+      success: false,
+      message: "Playlist remix failed"
+    })
+  }
   // Returns model info (or spotifys?)
 });
 module.exports = router;

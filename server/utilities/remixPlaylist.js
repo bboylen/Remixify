@@ -106,10 +106,11 @@ const populateRemixPlaylist = async (playlistId, remixedSongs, userName) => {
   const remixedSongIds = remixedSongs.map((song) => song.uri);
 
   const spotifyApi = await setUpSpotifyApi(userName);
-  await spotifyApi
+  return await spotifyApi
     .addTracksToPlaylist(playlistId, remixedSongIds)
     .then(
       () => {
+        return true;
       },
       (err) => {
         console.log("Error adding songs to playlist", err);
