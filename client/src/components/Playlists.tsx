@@ -59,8 +59,8 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       .catch((error) => console.log(error));
   };
 
-  const remixPlaylist = (playlistId: string, playlistName: string) => {
-    fetch(`http://localhost:3001/spotify/remix`, {
+  const remixPlaylist = async (playlistId: string, playlistName: string) => {
+    await fetch(`http://localhost:3001/spotify/remix`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -77,10 +77,12 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       // nothing right now 
     })
     .catch((error) => console.log(error));
+    return;
   }
 
   const handleRemix = async () => {
     await remixPlaylist(selectedPlaylist.id, selectedPlaylist.name);
+    // Can add loading / populate generated playlist
     getPlaylists();
   };
 
