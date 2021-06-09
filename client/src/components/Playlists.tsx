@@ -161,7 +161,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
             style={{ height: "100%", borderRight: 0 }}
             onClick={(playlist) => selectPlaylist(playlist.key)}
           >
-            <SubMenu key="sub1" icon={<UserOutlined />} title="Your Playlists">
+            <SubMenu key="sub1" icon={<UserOutlined />} title="Your Playlists" style={{maxHeight: '50%', overflow: 'auto', overflowX: 'hidden'}}>
               {userPlaylists.map((playlist: any) => {
                 return (
                   <Menu.Item
