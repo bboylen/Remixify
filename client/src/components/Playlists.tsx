@@ -4,7 +4,6 @@ import { Layout, Menu, Typography, Table, Button } from "antd";
 import { UserOutlined, LaptopOutlined } from "@ant-design/icons";
 import "../styles/Playlists.css";
 import { PageHeader } from "antd";
-import { response } from "express";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -21,6 +20,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
   const [playlistData, setPlaylistData] = useState<any>([]);
   const [remixedPlaylists, setRemixedPlaylists] = useState<any>([]);
   const [remixedPlaylistData, setRemixedPlaylistData] = useState<any>([]);
+  const [defaultSelectedPlaylist, setDefaultSelectedPlaylist] = useState<any>([]);
   const [loading, setLoading] = useState<Boolean>(true);
 
   const getPlaylists = () => {
@@ -35,6 +35,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       .then((responseJson) => {
         console.log(responseJson);
         setUserPlaylists(responseJson.playlists.items);
+        setDefaultSelectedPlaylist([userPlaylists[0].id]);
       })
       .catch((error) => console.log(error))
       .finally(() => {
@@ -82,6 +83,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       .then((responseJson) => {
         if (responseJson.playlists) {
           setRemixedPlaylists(responseJson.playlists);
+          setDefaultSelectedPlaylist([remixedPlaylists[0].spotifyId])
         }
 
       })
@@ -107,6 +109,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
 
   useEffect(() => {
     getPlaylists();
+    
   }, []);
 
   useEffect(() => {
@@ -156,12 +159,12 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
         >
           <Menu
             mode="inline"
-            defaultOpenKeys={['sub1']}
-            defaultSelectedKeys={[userPlaylists[0].id]}
+            defaultOpenKeys={['sub1','sub2']}
+            defaultSelectedKeys={defaultSelectedPlaylist}
             style={{ height: "100%", borderRight: 0 }}
             onClick={(playlist) => selectPlaylist(playlist.key)}
           >
-            <SubMenu key="sub1" icon={<UserOutlined />} title="Your Playlists" style={{maxHeight: '50%', overflow: 'auto', overflowX: 'hidden'}}>
+            <SubMenu key="sub1" icon={<UserOutlined />} title="Your Playlists" style={{maxHeight: '60%', overflow: 'auto', overflowX: 'hidden'}}>
               {userPlaylists.map((playlist: any) => {
                 return (
                   <Menu.Item
