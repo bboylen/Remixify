@@ -4,6 +4,7 @@ import { Layout, Menu, Typography, Table, Button } from "antd";
 import { UserOutlined, LaptopOutlined } from "@ant-design/icons";
 import "../styles/Playlists.css";
 import { PageHeader } from "antd";
+import { response } from "express";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
@@ -19,9 +20,8 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
   const [selectedPlaylist, setSelectedPlaylist] = useState<any>();
   const [playlistData, setPlaylistData] = useState<any>([]);
   const [remixedPlaylists, setRemixedPlaylists] = useState<any>([]);
-  const [ remixedPlaylistData, setRemixedPlaylistData] = useState<any>([]);
+  const [remixedPlaylistData, setRemixedPlaylistData] = useState<any>([]);
   const [loading, setLoading] = useState<Boolean>(true);
-
 
   const getPlaylists = () => {
     fetch(`http://localhost:3001/spotify/playlists`, {
@@ -70,18 +70,24 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ playlistId: playlistId, playlistName: playlistName }),
+      body: JSON.stringify({
+        playlistId: playlistId,
+        playlistName: playlistName,
+      }),
     })
-    .then((response) => {
-      if (response.status === 200) return response.json();
-      throw new Error("failed to remix user playlist");
-    })
-    .then((responseJson) => {
-      // nothing right now 
-    })
-    .catch((error) => console.log(error));
+      .then((response) => {
+        if (response.status === 200) return response.json();
+        throw new Error("failed to remix user playlist");
+      })
+      .then((responseJson) => {
+        if (responseJson.playlists) {
+          setRemixedPlaylists(responseJson.playlists);
+        }
+
+      })
+      .catch((error) => console.log(error));
     return;
-  }
+  };
 
   const handleRemix = async () => {
     await remixPlaylist(selectedPlaylist.id, selectedPlaylist.name);
@@ -173,7 +179,20 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
               key="sub2"
               icon={<LaptopOutlined />}
               title="Generated Playlists"
-            ></SubMenu>
+            >
+            {remixedPlaylists.map((playlist: any) => {
+                return (
+                  <Menu.Item
+                    key={playlist.spotifyId}
+                    style={{
+                      padding: "0px 5px 0px 15px",
+                    }}
+                  >
+                    {playlist.name}
+                  </Menu.Item>
+                );
+              })}  
+            </SubMenu>
           </Menu>
         </Sider>
         <Content
@@ -190,7 +209,12 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
             <PageHeader
               title={selectedPlaylist.name}
               extra={[
-                <Button onClick={handleRemix} size={"large"} danger type={"primary"}>
+                <Button
+                  onClick={handleRemix}
+                  size={"large"}
+                  danger
+                  type={"primary"}
+                >
                   Remix
                 </Button>,
               ]}

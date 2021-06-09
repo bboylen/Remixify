@@ -80,7 +80,6 @@ const createRemixedPlaylist = async (
   for (i = 0; i < remixedSongs.length; i++) {
     try {
       const newSong = await new Song({
-        userId: userId,
         spotifyId: remixedSongs[i].id,
         name: remixedSongs[i].name,
         artist: remixedSongs[i].artists[0].name,
@@ -94,6 +93,7 @@ const createRemixedPlaylist = async (
 
   try {
     const newPlaylist = await new Playlist({
+      userId: userId,
       spotifyId: newPlaylistId,
       name: newPlaylistName,
       songs: newSongs,
