@@ -9,6 +9,7 @@ const song = new Schema({
 });
 
 const playlist = new Schema({
+  userId: String,
   spotifyId: String,
   name: String,
   songs: [song],

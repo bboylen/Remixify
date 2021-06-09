@@ -58,7 +58,7 @@ router.post("/playlist", (req, res) => {
 
 router.post("/remix", async (req, res) => {
   // How to handle errors in this route? 
-
+  
   // Creates new playlist on spotify
   const newPlaylistName = `${req.body.playlistName} Remix`;
   const description = `A remix of ${req.body.playlistName}. Same artists - different songs!`;
@@ -78,7 +78,8 @@ router.post("/remix", async (req, res) => {
   const remixedPlaylist = await createRemixedPlaylist(
     newPlaylistId,
     newPlaylistName,
-    remixedSongs
+    remixedSongs,
+    req.user.spotifyId
   );
 
   // Populate playlist
