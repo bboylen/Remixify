@@ -57,7 +57,7 @@ router.post("/playlist", (req, res) => {
 });
 
 router.post("/remix", async (req, res) => {
-  // How to handle errors in this route? 
+  // How to handle errors in this route?
 
   // Creates new playlist on spotify
   const newPlaylistName = `${req.body.playlistName} Remix`;
@@ -83,12 +83,15 @@ router.post("/remix", async (req, res) => {
   );
 
   // Populate playlist
-  const playlistPopulationSuccess = await populateRemixPlaylist(newPlaylistId, remixedSongs, req.user.username);
+  const playlistPopulationSuccess = await populateRemixPlaylist(
+    newPlaylistId,
+    remixedSongs,
+    req.user.username
+  );
 
   // Returns remixed playlists
 
   if (playlistPopulationSuccess) {
-
     const usersRemixedPlaylists = await Playlist.find({
       userId: req.user.spotifyId,
     });
@@ -102,9 +105,28 @@ router.post("/remix", async (req, res) => {
   } else {
     res.status(500).json({
       success: false,
-      message: "Playlist remix failed"
+      message: "Playlist remix failed",
+    });
+  }
+});
+
+router.get("/remixedPlaylists", async (req, res) => {
+  try {
+    const usersRemixedPlaylists = await Playlist.find({
+      userId: req.user.spotifyId,
+    });
+    res.status(200).json({
+      success: true,
+      playlists: usersRemixedPlaylists,
+      message: 'Remixed playlist retrieval successful'
+    })
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: 'Error retrieving remixed playlists'
     })
   }
-  
 });
+
 module.exports = router;

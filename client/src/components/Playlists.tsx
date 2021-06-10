@@ -20,7 +20,6 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
   const [playlistData, setPlaylistData] = useState<any>([]);
   const [remixedPlaylists, setRemixedPlaylists] = useState<any>([]);
   const [remixedPlaylistData, setRemixedPlaylistData] = useState<any>([]);
-  const [defaultSelectedPlaylist, setDefaultSelectedPlaylist] = useState<any>([]);
   const [loading, setLoading] = useState<Boolean>(true);
 
   const getPlaylists = () => {
@@ -34,6 +33,24 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       })
       .then((responseJson) => {
         setUserPlaylists(responseJson.playlists.items);
+      })
+      .catch((error) => console.log(error))
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const getRemixedPlaylists = () => {
+    fetch(`http://localhost:3001/spotify/remixedPlaylists`, {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => {
+        if (response.status === 200) return response.json();
+        throw new Error("failed to fetch user playlists");
+      })
+      .then((responseJson) => {
+        setRemixedPlaylists(responseJson.playlists);
       })
       .catch((error) => console.log(error))
       .finally(() => {
@@ -107,6 +124,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
 
   useEffect(() => {
     getPlaylists();
+    getRemixedPlaylists();
   }, []);
 
   useEffect(() => {
