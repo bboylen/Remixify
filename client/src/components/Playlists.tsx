@@ -54,7 +54,8 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       .then((responseJson) => {
         setRemixedPlaylists(responseJson.playlists);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      
   };
 
   const getPlaylist = (playlistId: string) => {
