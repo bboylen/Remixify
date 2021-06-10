@@ -8,7 +8,6 @@ import { PageHeader } from "antd";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
-const { Title } = Typography;
 
 interface PlaylistProps {
   user: User;
@@ -22,83 +21,6 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
   const [remixedPlaylists, setRemixedPlaylists] = useState<any>([]);
   const [remixedPlaylistData, setRemixedPlaylistData] = useState<any>([]);
   const [loading, setLoading] = useState<Boolean>(true);
-
-  // const remixPlaylist = async (playlistId: string, playlistName: string) => {
-  //   await fetch(`http://localhost:3001/spotify/remix`, {
-  //     method: "POST",
-  //     credentials: "include",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       playlistId: playlistId,
-  //       playlistName: playlistName,
-  //     }),
-  //   })
-  //     .then((response) => {
-  //       if (response.status === 200) return response.json();
-  //       throw new Error("failed to remix user playlist");
-  //     })
-  //     .then((responseJson) => {
-  //       if (responseJson.playlists) {
-  //         setRemixedPlaylists(responseJson.playlists);
-  //         getPlaylist(responseJson.spotifyId);
-  //       }
-  //     })
-  //     .catch((error) => console.log(error));
-  //   return;
-  // };
-
-  useEffect(() => {
-    getPlaylists().then((response) => {
-      setUserPlaylists(response.playlists.items);
-      setLoading(false);
-    });
-    getRemixedPlaylists().then((response) => {
-      setRemixedPlaylists(response.playlists);
-    });
-  }, []);
-
-  useEffect(() => {
-    if (userPlaylists.length > 0) {
-      selectPlaylist(userPlaylists[0].id);
-    }
-  }, [userPlaylists]);
-  
-  const handleRemix = async () => {
-    await remixPlaylist(selectedPlaylist.id, selectedPlaylist.name).then((response) => {
-      setRemixedPlaylists(response.playlists);
-      selectPlaylist(response.spotifyId);
-    });
-
-    getPlaylists().then((response) => {
-      setUserPlaylists(response.playlists.items);
-    });
-  };
-
-  const selectPlaylist = (playlistKey: any) => {
-    console.log(playlistKey);
-    // if key is in ${LIST_OF_REMIXED_KEYS} set ${REMIX_SELECTED} to true
-    // conditional render of delete button based on ${REMIX_SELECTED}
-    getPlaylist(playlistKey).then((response) => setSelectedPlaylist(response.playlist));
-  };
-
-  
-
-  useEffect(() => {
-    if (selectedPlaylist) {
-      let data = selectedPlaylist.tracks.items.map((song: any) => {
-        return {
-          key: song.track.id,
-          songName: song.track.name,
-          artist: song.track.artists[0].name,
-          album: song.track.album.name,
-        };
-      });
-      setPlaylistData(data);
-    }
-  }, [selectedPlaylist]);
 
   const columns = [
     {
@@ -117,6 +39,55 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       key: "album",
     },
   ];
+
+  useEffect(() => {
+    getPlaylists().then((response) => {
+      setUserPlaylists(response.playlists.items);
+      setLoading(false);
+    });
+    getRemixedPlaylists().then((response) => {
+      setRemixedPlaylists(response.playlists);
+    });
+  }, []);
+
+  //CHANGE HOW THIS WORKS, SHOULD FIRE AFTER REMIX
+  useEffect(() => {
+    if (userPlaylists.length > 0) {
+      selectPlaylist(userPlaylists[0].id);
+    }
+  }, [userPlaylists]);
+
+  useEffect(() => {
+    if (selectedPlaylist) {
+      let data = selectedPlaylist.tracks.items.map((song: any) => {
+        return {
+          key: song.track.id,
+          songName: song.track.name,
+          artist: song.track.artists[0].name,
+          album: song.track.album.name,
+        };
+      });
+      setPlaylistData(data);
+    }
+  }, [selectedPlaylist]);
+  
+  const handleRemix = async () => {
+    await remixPlaylist(selectedPlaylist.id, selectedPlaylist.name).then((response) => {
+      setRemixedPlaylists(response.playlists);
+      selectPlaylist(response.spotifyId);
+    });
+
+    getPlaylists().then((response) => {
+      setUserPlaylists(response.playlists.items);
+    });
+  };
+
+  const selectPlaylist = (playlistKey: any) => {
+    console.log(playlistKey);
+    // if key is in ${LIST_OF_REMIXED_KEYS} set ${REMIX_SELECTED} to true
+    // conditional render of delete button based on ${REMIX_SELECTED}
+    getPlaylist(playlistKey).then((response) => setSelectedPlaylist(response.playlist));
+  };
 
   if (loading) return null;
 
