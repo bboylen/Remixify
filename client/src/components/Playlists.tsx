@@ -112,7 +112,10 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
   };
 
   const selectPlaylist = (playlistKey: any) => {
-    getPlaylist(playlistKey);
+    console.log(playlistKey)
+    // if key is in ${LIST_OF_REMIXED_KEYS} set ${REMIX_SELECTED} to true
+    // conditional render of delete button based on ${REMIX_SELECTED}
+    getPlaylist(playlistKey.key);
   };
 
   useEffect(() => {
@@ -176,7 +179,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
             defaultOpenKeys={["sub1", "sub2"]}
             defaultSelectedKeys={[userPlaylists[0].id]}
             style={{ height: "100%", borderRight: 0 }}
-            onClick={(playlist) => selectPlaylist(playlist.key)}
+            onClick={(playlist) => selectPlaylist(playlist)}
           >
             <SubMenu
               key="sub1"
@@ -234,16 +237,18 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
           {selectedPlaylist && (
             <PageHeader
               title={selectedPlaylist.name}
-              extra={[
-                <Button
+              extra={
+                // Ternary based on whether playlist is remixed or not!
+                true ? (<Button
                   onClick={handleRemix}
                   size={"large"}
                   danger
                   type={"primary"}
                 >
                   Remix
-                </Button>,
-              ]}
+                </Button>) : null
+                
+              }
             />
           )}
           {selectedPlaylist && (
