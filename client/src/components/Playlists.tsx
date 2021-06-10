@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { User } from "../util/types";
+import { getPlaylists, getRemixedPlaylists, getPlaylist, remixPlaylist } from "../util/spotifyRequests";
 import { Layout, Menu, Typography, Table, Button } from "antd";
 import { UserOutlined, LaptopOutlined } from "@ant-design/icons";
 import "../styles/Playlists.css";
@@ -22,112 +23,68 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
   const [remixedPlaylistData, setRemixedPlaylistData] = useState<any>([]);
   const [loading, setLoading] = useState<Boolean>(true);
 
-  // Put fetch requests in a module 
-  
-  const getPlaylists = () => {
-    fetch(`http://localhost:3001/spotify/playlists`, {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((response) => {
-        if (response.status === 200) return response.json();
-        throw new Error("failed to fetch user playlists");
-      })
-      .then((responseJson) => {
-        setUserPlaylists(responseJson.playlists.items);
-      })
-      .catch((error) => console.log(error))
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+  // const remixPlaylist = async (playlistId: string, playlistName: string) => {
+  //   await fetch(`http://localhost:3001/spotify/remix`, {
+  //     method: "POST",
+  //     credentials: "include",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       playlistId: playlistId,
+  //       playlistName: playlistName,
+  //     }),
+  //   })
+  //     .then((response) => {
+  //       if (response.status === 200) return response.json();
+  //       throw new Error("failed to remix user playlist");
+  //     })
+  //     .then((responseJson) => {
+  //       if (responseJson.playlists) {
+  //         setRemixedPlaylists(responseJson.playlists);
+  //         getPlaylist(responseJson.spotifyId);
+  //       }
+  //     })
+  //     .catch((error) => console.log(error));
+  //   return;
+  // };
 
-  const getRemixedPlaylists = () => {
-    fetch(`http://localhost:3001/spotify/remixedPlaylists`, {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((response) => {
-        if (response.status === 200) return response.json();
-        throw new Error("failed to fetch user playlists");
-      })
-      .then((responseJson) => {
-        setRemixedPlaylists(responseJson.playlists);
-      })
-      .catch((error) => console.log(error))
-      
-  };
-
-  const getPlaylist = (playlistId: string) => {
-    fetch(`http://localhost:3001/spotify/playlist`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ playlistId: playlistId }),
-    })
-      .then((response) => {
-        if (response.status === 200) return response.json();
-        throw new Error("failed to fetch user playlist");
-      })
-      .then((responseJson) => {
-        setSelectedPlaylist(responseJson.playlist);
-      })
-      .catch((error) => console.log(error));
-  };
-
-  const remixPlaylist = async (playlistId: string, playlistName: string) => {
-    await fetch(`http://localhost:3001/spotify/remix`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        playlistId: playlistId,
-        playlistName: playlistName,
-      }),
-    })
-      .then((response) => {
-        if (response.status === 200) return response.json();
-        throw new Error("failed to remix user playlist");
-      })
-      .then((responseJson) => {
-        if (responseJson.playlists) {
-          setRemixedPlaylists(responseJson.playlists);
-          getPlaylist(responseJson.spotifyId);
-        }
-      })
-      .catch((error) => console.log(error));
-    return;
-  };
-
-  const handleRemix = async () => {
-    await remixPlaylist(selectedPlaylist.id, selectedPlaylist.name);
-    // Can add loading / populate generated playlist
-    getPlaylists();
-  };
-
-  const selectPlaylist = (playlistKey: any) => {
-    console.log(playlistKey)
-    // if key is in ${LIST_OF_REMIXED_KEYS} set ${REMIX_SELECTED} to true
-    // conditional render of delete button based on ${REMIX_SELECTED}
-    getPlaylist(playlistKey.key);
-  };
+  useEffect(() => {
+    getPlaylists().then((response) => {
+      setUserPlaylists(response.playlists.items);
+      setLoading(false);
+    });
+    getRemixedPlaylists().then((response) => {
+      setRemixedPlaylists(response.playlists);
+    });
+  }, []);
 
   useEffect(() => {
     if (userPlaylists.length > 0) {
       selectPlaylist(userPlaylists[0].id);
     }
   }, [userPlaylists]);
+  
+  const handleRemix = async () => {
+    await remixPlaylist(selectedPlaylist.id, selectedPlaylist.name).then((response) => {
+      setRemixedPlaylists(response.playlists);
+      selectPlaylist(response.spotifyId);
+    });
 
-  useEffect(() => {
-    getPlaylists();
-    getRemixedPlaylists();
-  }, []);
+    getPlaylists().then((response) => {
+      setUserPlaylists(response.playlists.items);
+    });
+  };
+
+  const selectPlaylist = (playlistKey: any) => {
+    console.log(playlistKey);
+    // if key is in ${LIST_OF_REMIXED_KEYS} set ${REMIX_SELECTED} to true
+    // conditional render of delete button based on ${REMIX_SELECTED}
+    getPlaylist(playlistKey).then((response) => setSelectedPlaylist(response.playlist));
+  };
+
+  
 
   useEffect(() => {
     if (selectedPlaylist) {
@@ -179,7 +136,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
             defaultOpenKeys={["sub1", "sub2"]}
             defaultSelectedKeys={[userPlaylists[0].id]}
             style={{ height: "100%", borderRight: 0 }}
-            onClick={(playlist) => selectPlaylist(playlist)}
+            onClick={(playlist) => selectPlaylist(playlist.key)}
           >
             <SubMenu
               key="sub1"
@@ -239,15 +196,16 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
               title={selectedPlaylist.name}
               extra={
                 // Ternary based on whether playlist is remixed or not!
-                true ? (<Button
-                  onClick={handleRemix}
-                  size={"large"}
-                  danger
-                  type={"primary"}
-                >
-                  Remix
-                </Button>) : null
-                
+                true ? (
+                  <Button
+                    onClick={handleRemix}
+                    size={"large"}
+                    danger
+                    type={"primary"}
+                  >
+                    Remix
+                  </Button>
+                ) : null
               }
             />
           )}
