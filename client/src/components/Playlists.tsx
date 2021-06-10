@@ -22,6 +22,8 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
   const [remixedPlaylistData, setRemixedPlaylistData] = useState<any>([]);
   const [loading, setLoading] = useState<Boolean>(true);
 
+  // Put fetch requests in a module 
+  
   const getPlaylists = () => {
     fetch(`http://localhost:3001/spotify/playlists`, {
       method: "GET",
@@ -52,10 +54,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       .then((responseJson) => {
         setRemixedPlaylists(responseJson.playlists);
       })
-      .catch((error) => console.log(error))
-      .finally(() => {
-        setLoading(false);
-      });
+      .catch((error) => console.log(error));
   };
 
   const getPlaylist = (playlistId: string) => {
@@ -100,7 +99,6 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
           setRemixedPlaylists(responseJson.playlists);
           getPlaylist(responseJson.spotifyId);
         }
-
       })
       .catch((error) => console.log(error));
     return;
@@ -174,12 +172,21 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
         >
           <Menu
             mode="inline"
-            defaultOpenKeys={['sub1','sub2']}
+            defaultOpenKeys={["sub1", "sub2"]}
             defaultSelectedKeys={[userPlaylists[0].id]}
             style={{ height: "100%", borderRight: 0 }}
             onClick={(playlist) => selectPlaylist(playlist.key)}
           >
-            <SubMenu key="sub1" icon={<UserOutlined />} title="Your Playlists" style={{maxHeight: '60%', overflow: 'auto', overflowX: 'hidden'}}>
+            <SubMenu
+              key="sub1"
+              icon={<UserOutlined />}
+              title="Your Playlists"
+              style={{
+                maxHeight: "60%",
+                overflow: "auto",
+                overflowX: "hidden",
+              }}
+            >
               {userPlaylists.map((playlist: any) => {
                 return (
                   <Menu.Item
@@ -198,7 +205,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
               icon={<LaptopOutlined />}
               title="Generated Playlists"
             >
-            {remixedPlaylists.map((playlist: any) => {
+              {remixedPlaylists.map((playlist: any) => {
                 return (
                   <Menu.Item
                     key={playlist.spotifyId}
@@ -209,7 +216,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
                     {playlist.name}
                   </Menu.Item>
                 );
-              })}  
+              })}
             </SubMenu>
           </Menu>
         </Sider>
