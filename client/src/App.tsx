@@ -56,7 +56,7 @@ const App: React.FC = () => {
     <Router>
       <UserContext.Provider value={user}>
         <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
-          <div className="App">{!authenticated ? <Login /> : <Home />}</div>
+          <div className="App" style={{overflow: 'hidden'}}>{!authenticated ? <Login /> : <Home />}</div>
         </AuthContext.Provider>
       </UserContext.Provider>
     </Router>

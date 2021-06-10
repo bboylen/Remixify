@@ -229,7 +229,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
               columns={columns}
               sticky={true}
               pagination={{ pageSize: 1000, position: [] }}
-              scroll={{ y: "77vh" }}
+              scroll={{ y: "65vh" }}
             />
           )}
         </Content>
