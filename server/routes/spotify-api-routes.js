@@ -93,11 +93,10 @@ router.post("/remix", async (req, res) => {
       userId: req.user.spotifyId,
     });
 
-    console.log(usersRemixedPlaylists);
-
     res.status(200).json({
       success: true,
       playlists: usersRemixedPlaylists,
+      playlistId: remixedPlaylist.spotifyId,
       message: "Playlist remix successful",
     });
   } else {

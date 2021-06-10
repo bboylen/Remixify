@@ -33,9 +33,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
         throw new Error("failed to fetch user playlists");
       })
       .then((responseJson) => {
-        console.log(responseJson);
         setUserPlaylists(responseJson.playlists.items);
-        setDefaultSelectedPlaylist([userPlaylists[0].id]);
       })
       .catch((error) => console.log(error))
       .finally(() => {
@@ -83,7 +81,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       .then((responseJson) => {
         if (responseJson.playlists) {
           setRemixedPlaylists(responseJson.playlists);
-          setDefaultSelectedPlaylist([remixedPlaylists[0].spotifyId])
+          getPlaylist(responseJson.spotifyId);
         }
 
       })
@@ -109,7 +107,6 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
 
   useEffect(() => {
     getPlaylists();
-    
   }, []);
 
   useEffect(() => {
@@ -160,7 +157,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
           <Menu
             mode="inline"
             defaultOpenKeys={['sub1','sub2']}
-            defaultSelectedKeys={defaultSelectedPlaylist}
+            defaultSelectedKeys={[userPlaylists[0].id]}
             style={{ height: "100%", borderRight: 0 }}
             onClick={(playlist) => selectPlaylist(playlist.key)}
           >
