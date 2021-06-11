@@ -12,28 +12,43 @@ const User = require("../models/user-model");
 const { Playlist, Song } = require("../models/playlist-model");
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 
-router.get("/playlists", (req, res) => {
-  setUpSpotifyApi(req.user.username)
-    .then((spotifyApi) => {
-      spotifyApi
-        .getUserPlaylists(req.user.username, {
-          limit: 50,
-        })
-        .then(
-          (data) => {
-            res.status(200).json({
-              success: true,
-              playlists: data.body,
-            });
-          },
-          (err) => {
-            console.log("Error grabbing playlists", err);
-          }
-        );
+router.get("/playlists", async (req, res) => {
+  const spotifyApi = await setUpSpotifyApi(req.user.username);
+  const spotifyPlaylists = await spotifyApi
+    .getUserPlaylists(req.user.username, {
+      limit: 50,
     })
+    .then(
+      (data) => {
+        return data.body.items;
+      },
+      (err) => {
+        console.log("Error grabbing playlists", err);
+      }
+    )
     .catch((error) => {
       console.log(error);
     });
+
+  const usersRemixedPlaylists = await Playlist.find({
+    userId: req.user.spotifyId,
+  });
+
+  const remixedPlaylistKeys = {};
+
+  usersRemixedPlaylists.forEach((playlist) => {
+    remixedPlaylistKeys[playlist.spotifyId] = true;
+  });
+
+  console.log(remixedPlaylistKeys);
+  const returnPlaylists = spotifyPlaylists.filter(
+    (playlist) => usersRemixedPlaylists[playlist.id]
+  );
+
+  res.status(200).json({
+    success: true,
+    playlists: returnPlaylists,
+  });
 });
 
 router.post("/playlist", (req, res) => {
@@ -118,14 +133,14 @@ router.get("/remixedPlaylists", async (req, res) => {
     res.status(200).json({
       success: true,
       playlists: usersRemixedPlaylists,
-      message: 'Remixed playlist retrieval successful'
-    })
+      message: "Remixed playlist retrieval successful",
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
       success: false,
-      message: 'Error retrieving remixed playlists'
-    })
+      message: "Error retrieving remixed playlists",
+    });
   }
 });
 

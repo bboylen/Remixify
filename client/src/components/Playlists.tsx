@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { User } from "../util/types";
 import { getPlaylists, getRemixedPlaylists, getPlaylist, remixPlaylist } from "../util/spotifyRequests";
-import { Layout, Menu, Typography, Table, Button } from "antd";
+import { Layout, Menu, Table, Button } from "antd";
 import { UserOutlined, LaptopOutlined } from "@ant-design/icons";
 import "../styles/Playlists.css";
 import { PageHeader } from "antd";
@@ -19,7 +19,6 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
   const [selectedPlaylist, setSelectedPlaylist] = useState<any>();
   const [playlistData, setPlaylistData] = useState<any>([]);
   const [remixedPlaylists, setRemixedPlaylists] = useState<any>([]);
-  const [remixedPlaylistData, setRemixedPlaylistData] = useState<any>([]);
   const [loading, setLoading] = useState<Boolean>(true);
 
   const columns = [
@@ -42,7 +41,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
 
   useEffect(() => {
     getPlaylists().then((response) => {
-      setUserPlaylists(response.playlists.items);
+      setUserPlaylists(response.playlists);
       setLoading(false);
     });
     getRemixedPlaylists().then((response) => {
@@ -78,7 +77,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
     });
 
     getPlaylists().then((response) => {
-      setUserPlaylists(response.playlists.items);
+      setUserPlaylists(response.playlists);
     });
   };
 
@@ -105,7 +104,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
           <Menu
             mode="inline"
             defaultOpenKeys={["sub1", "sub2"]}
-            defaultSelectedKeys={[userPlaylists[0].id]}
+            defaultSelectedKeys={userPlaylists[0] ? [userPlaylists[0].id] : []}
             style={{ height: "100%", borderRight: 0 }}
             onClick={(playlist) => selectPlaylist(playlist.key)}
           >
