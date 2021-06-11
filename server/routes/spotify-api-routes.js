@@ -40,15 +40,18 @@ router.get("/playlists", async (req, res) => {
     remixedPlaylistKeys[playlist.spotifyId] = true;
   });
 
-  console.log(remixedPlaylistKeys);
   const returnPlaylists = spotifyPlaylists.filter(
-    (playlist) => usersRemixedPlaylists[playlist.id]
+    (playlist) => {
+      return !remixedPlaylistKeys[playlist.id]
+    }
   );
 
   res.status(200).json({
     success: true,
     playlists: returnPlaylists,
   });
+
+  //Error?
 });
 
 router.post("/playlist", (req, res) => {
