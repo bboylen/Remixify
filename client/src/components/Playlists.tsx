@@ -41,11 +41,9 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
 
   useEffect(() => {
     getPlaylists().then((response) => {
-      setUserPlaylists(response.playlists);
+      setUserPlaylists(response.spotifyPlaylists);
+      setRemixedPlaylists(response.remixedPlaylists);
       setLoading(false);
-    });
-    getRemixedPlaylists().then((response) => {
-      setRemixedPlaylists(response.playlists);
     });
   }, []);
 
@@ -70,6 +68,8 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
     }
   }, [selectedPlaylist]);
   
+
+  // CHANGE
   const handleRemix = async () => {
     await remixPlaylist(selectedPlaylist.id, selectedPlaylist.name).then((response) => {
       setRemixedPlaylists(response.playlists);
@@ -77,7 +77,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
     });
 
     getPlaylists().then((response) => {
-      setUserPlaylists(response.playlists);
+      setUserPlaylists(response.spotifyPlaylists);
     });
   };
 

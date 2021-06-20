@@ -14,7 +14,7 @@ const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 
 router.get("/playlists", async (req, res) => {
   const spotifyApi = await setUpSpotifyApi(req.user.username);
-  const spotifyPlaylists = await spotifyApi
+  const allPlaylists = await spotifyApi
     .getUserPlaylists(req.user.username, {
       limit: 50,
     })
@@ -30,17 +30,18 @@ router.get("/playlists", async (req, res) => {
       console.log(error);
     });
 
-  const usersRemixedPlaylists = await Playlist.find({
+    // need try/catch?
+  const remixedPlaylists = await Playlist.find({
     userId: req.user.spotifyId,
   });
 
   const remixedPlaylistKeys = {};
 
-  usersRemixedPlaylists.forEach((playlist) => {
+  remixedPlaylists.forEach((playlist) => {
     remixedPlaylistKeys[playlist.spotifyId] = true;
   });
 
-  const returnPlaylists = spotifyPlaylists.filter(
+  const spotifyPlaylists = allPlaylists.filter(
     (playlist) => {
       return !remixedPlaylistKeys[playlist.id]
     }
@@ -48,7 +49,8 @@ router.get("/playlists", async (req, res) => {
 
   res.status(200).json({
     success: true,
-    playlists: returnPlaylists,
+    spotifyPlaylists: spotifyPlaylists,
+    remixedPlaylists: remixedPlaylists
   });
 
   //Error?
