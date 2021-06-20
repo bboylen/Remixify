@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { User } from "../util/types";
-import { getPlaylists, getPlaylist, remixPlaylist } from "../util/spotifyRequests";
+import {
+  getPlaylists,
+  getPlaylist,
+  remixPlaylist,
+} from "../util/spotifyRequests";
 import { Layout, Menu, Table, Button } from "antd";
 import { UserOutlined, LaptopOutlined } from "@ant-design/icons";
 import "../styles/Playlists.css";
@@ -14,11 +18,12 @@ interface PlaylistProps {
 }
 
 export const Playlists: React.FC<PlaylistProps> = (props) => {
-  const { user } = props;
+  // const { user } = props;
   const [userPlaylists, setUserPlaylists] = useState<any>([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState<any>();
   const [playlistData, setPlaylistData] = useState<any>([]);
   const [remixedPlaylists, setRemixedPlaylists] = useState<any>([]);
+  const [remixedSelected, setRemixedSelected] = useState<Boolean>(false);
   const [loading, setLoading] = useState<Boolean>(true);
 
   const columns = [
@@ -67,21 +72,34 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
       setPlaylistData(data);
     }
   }, [selectedPlaylist]);
-  
 
-  // CHANGE
-  const handleRemix = async () => {
-    await remixPlaylist(selectedPlaylist.id, selectedPlaylist.name).then((response) => {
-      setRemixedPlaylists(response.playlists);
-      selectPlaylist(response.playlistId);
-    });
+  const handleRemix = () => {
+    remixPlaylist(selectedPlaylist.id, selectedPlaylist.name).then(
+      (response) => {
+        setRemixedPlaylists(response.playlists);
+        selectPlaylist(response.playlistId);
+      }
+    );
   };
 
+  const handleDelete = () => {
+
+  };
+  
   const selectPlaylist = (playlistKey: any) => {
-    console.log(playlistKey);
-    // if key is in ${LIST_OF_REMIXED_KEYS} set ${REMIX_SELECTED} to true
-    // conditional render of delete button based on ${REMIX_SELECTED}
-    getPlaylist(playlistKey).then((response) => setSelectedPlaylist(response.playlist));
+    let remixed = remixedPlaylists.some(
+      (playlist: any) => playlist.spotifyId === playlistKey
+    );
+
+    if (remixed) {
+      setRemixedSelected(true);
+    } else {
+      setRemixedSelected(false);
+    }
+
+    getPlaylist(playlistKey).then((response) =>
+      setSelectedPlaylist(response.playlist)
+    );
   };
 
   if (loading) return null;
@@ -161,17 +179,29 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
             <PageHeader
               title={selectedPlaylist.name}
               extra={
-                // Ternary based on whether playlist is remixed or not!
-                true ? (
-                  <Button
-                    onClick={handleRemix}
-                    size={"large"}
-                    danger
-                    type={"primary"}
-                  >
+                remixedSelected ? (
+                  [
+                    <Button
+                      onClick={handleDelete}
+                      size={"large"}
+                      danger
+                      type={"primary"}
+                    >
+                      Delete
+                    </Button>,
+                    <Button
+                      onClick={handleRemix}
+                      size={"large"}
+                      type={"primary"}
+                    >
+                      Remix
+                    </Button>,
+                  ]
+                ) : (
+                  <Button onClick={handleRemix} size={"large"} type={"primary"}>
                     Remix
                   </Button>
-                ) : null
+                )
               }
             />
           )}
