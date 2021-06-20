@@ -56,26 +56,26 @@ router.get("/playlists", async (req, res) => {
   //Error?
 });
 
-// COMBINE!
+// Combined with /playlists
 
-router.get("/remixedPlaylists", async (req, res) => {
-  try {
-    const usersRemixedPlaylists = await Playlist.find({
-      userId: req.user.spotifyId,
-    });
-    res.status(200).json({
-      success: true,
-      playlists: usersRemixedPlaylists,
-      message: "Remixed playlist retrieval successful",
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: "Error retrieving remixed playlists",
-    });
-  }
-});
+// router.get("/remixedPlaylists", async (req, res) => {
+//   try {
+//     const usersRemixedPlaylists = await Playlist.find({
+//       userId: req.user.spotifyId,
+//     });
+//     res.status(200).json({
+//       success: true,
+//       playlists: usersRemixedPlaylists,
+//       message: "Remixed playlist retrieval successful",
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({
+//       success: false,
+//       message: "Error retrieving remixed playlists",
+//     });
+//   }
+// });
 
 router.post("/playlist", (req, res) => {
   setUpSpotifyApi(req.user.username)
@@ -114,7 +114,7 @@ router.post("/remix", async (req, res) => {
 
   // Create remixed Songs
   const remixedSongs = await createRemixedSongs(oldTracks, req.user.username);
-
+  
   // Create/populate playlist model
   const remixedPlaylist = await createRemixedPlaylist(
     newPlaylistId,
@@ -122,14 +122,14 @@ router.post("/remix", async (req, res) => {
     remixedSongs,
     req.user.spotifyId
   );
-
+  
   // Populate playlist
   const playlistPopulationSuccess = await populateRemixPlaylist(
     newPlaylistId,
     remixedSongs,
     req.user.username
   );
-
+  
   // Returns remixed playlists
 
   if (playlistPopulationSuccess) {

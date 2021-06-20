@@ -11,17 +11,19 @@ const getPlaylists = async () => {
     .catch((error) => console.log(error))    
 };
 
-const getRemixedPlaylists = async () => {
-  return fetch(`http://localhost:3001/spotify/remixedPlaylists`, {
-    method: "GET",
-    credentials: "include",
-  })
-    .then((response) => {
-      if (response.status === 200) return response.json();
-      throw new Error("failed to fetch user playlists");
-    })
-    .catch((error) => console.log(error));
-};
+// Combined with getPlaylists
+
+// const getRemixedPlaylists = async () => {
+//   return fetch(`http://localhost:3001/spotify/remixedPlaylists`, {
+//     method: "GET",
+//     credentials: "include",
+//   })
+//     .then((response) => {
+//       if (response.status === 200) return response.json();
+//       throw new Error("failed to fetch user playlists");
+//     })
+//     .catch((error) => console.log(error));
+// };
 
 const getPlaylist = async (playlistId: string) => {
   return fetch(`http://localhost:3001/spotify/playlist`, {
@@ -60,4 +62,4 @@ const remixPlaylist = async (playlistId: string, playlistName: string) => {
     .catch((error) => console.log(error));
 };
 
-export {getPlaylists, getRemixedPlaylists, getPlaylist, remixPlaylist};
+export {getPlaylists, getPlaylist, remixPlaylist};

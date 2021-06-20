@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { User } from "../util/types";
-import { getPlaylists, getRemixedPlaylists, getPlaylist, remixPlaylist } from "../util/spotifyRequests";
+import { getPlaylists, getPlaylist, remixPlaylist } from "../util/spotifyRequests";
 import { Layout, Menu, Table, Button } from "antd";
 import { UserOutlined, LaptopOutlined } from "@ant-design/icons";
 import "../styles/Playlists.css";
@@ -73,11 +73,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
   const handleRemix = async () => {
     await remixPlaylist(selectedPlaylist.id, selectedPlaylist.name).then((response) => {
       setRemixedPlaylists(response.playlists);
-      selectPlaylist(response.spotifyId);
-    });
-
-    getPlaylists().then((response) => {
-      setUserPlaylists(response.spotifyPlaylists);
+      selectPlaylist(response.playlistId);
     });
   };
 
