@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { User } from "../util/types";
 import {
   getPlaylists,
+  getRemixedPlaylists,
   getPlaylist,
   remixPlaylist,
   deletePlaylist,
@@ -83,8 +84,13 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
     );
   };
 
-  const handleDelete = () => {
-    deletePlaylist(selectedPlaylist.id);
+  const handleDelete = async () => {
+    await deletePlaylist(selectedPlaylist.id);
+
+    getRemixedPlaylists().then((response) => {
+      setRemixedPlaylists(response.playlists);
+      setSelectedPlaylist(null);
+    })
   };
 
   const selectPlaylist = (playlistKey: any) => {

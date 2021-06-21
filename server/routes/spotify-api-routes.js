@@ -54,26 +54,24 @@ router.get("/playlists", async (req, res) => {
   //Error?
 });
 
-// Combined with /playlists
-
-// router.get("/remixedPlaylists", async (req, res) => {
-//   try {
-//     const usersRemixedPlaylists = await Playlist.find({
-//       userId: req.user.spotifyId,
-//     });
-//     res.status(200).json({
-//       success: true,
-//       playlists: usersRemixedPlaylists,
-//       message: "Remixed playlist retrieval successful",
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({
-//       success: false,
-//       message: "Error retrieving remixed playlists",
-//     });
-//   }
-// });
+router.get("/remixedPlaylists", async (req, res) => {
+  try {
+    const usersRemixedPlaylists = await Playlist.find({
+      userId: req.user.spotifyId,
+    });
+    res.status(200).json({
+      success: true,
+      playlists: usersRemixedPlaylists,
+      message: "Remixed playlist retrieval successful",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error retrieving remixed playlists",
+    });
+  }
+});
 
 router.post("/playlist", (req, res) => {
   setUpSpotifyApi(req.user.username)
@@ -114,8 +112,10 @@ router.post("/deletePlaylist", async (req, res) => {
       isError = true;
     });
 
-  Playlist.deleteOne({ spotifyId: playlistId })
-    .catch((err) => console.log("Remixed playlist not deleted from MongoDB", err));
+  Playlist.deleteOne({ spotifyId: playlistId }).catch((err) => {
+    console.log("Remixed playlist not deleted from MongoDB", err);
+    isError = true;
+  });
 
   if (!isError) {
     res.status(200).json({
