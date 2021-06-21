@@ -4,6 +4,7 @@ import {
   getPlaylists,
   getPlaylist,
   remixPlaylist,
+  deletePlaylist,
 } from "../util/spotifyRequests";
 import { Layout, Menu, Table, Button } from "antd";
 import { UserOutlined, LaptopOutlined } from "@ant-design/icons";
@@ -83,9 +84,9 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
   };
 
   const handleDelete = () => {
-
+    deletePlaylist(selectedPlaylist.id);
   };
-  
+
   const selectPlaylist = (playlistKey: any) => {
     let remixed = remixedPlaylists.some(
       (playlist: any) => playlist.spotifyId === playlistKey

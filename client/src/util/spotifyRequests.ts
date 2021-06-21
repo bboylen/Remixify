@@ -62,4 +62,22 @@ const remixPlaylist = async (playlistId: string, playlistName: string) => {
     .catch((error) => console.log(error));
 };
 
-export {getPlaylists, getPlaylist, remixPlaylist};
+const deletePlaylist = async (playlistId: string) => {
+  console.log('ok')
+  return fetch(`http://localhost:3001/spotify/deletePlaylist`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ playlistId: playlistId }),
+  })
+    .then((response) => {
+      if (response.status === 200) return response.json();
+      throw new Error("error in deleting user playlist");
+    })
+    .catch((error) => console.log(error));
+};
+
+export {getPlaylists, getPlaylist, remixPlaylist, deletePlaylist};

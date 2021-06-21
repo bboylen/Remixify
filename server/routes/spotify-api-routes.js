@@ -30,7 +30,7 @@ router.get("/playlists", async (req, res) => {
       console.log(error);
     });
 
-    // need try/catch?
+  // need try/catch?
   const remixedPlaylists = await Playlist.find({
     userId: req.user.spotifyId,
   });
@@ -41,16 +41,14 @@ router.get("/playlists", async (req, res) => {
     remixedPlaylistKeys[playlist.spotifyId] = true;
   });
 
-  const spotifyPlaylists = allPlaylists.filter(
-    (playlist) => {
-      return !remixedPlaylistKeys[playlist.id]
-    }
-  );
+  const spotifyPlaylists = allPlaylists.filter((playlist) => {
+    return !remixedPlaylistKeys[playlist.id];
+  });
 
   res.status(200).json({
     success: true,
     spotifyPlaylists: spotifyPlaylists,
-    remixedPlaylists: remixedPlaylists
+    remixedPlaylists: remixedPlaylists,
   });
 
   //Error?
@@ -97,6 +95,39 @@ router.post("/playlist", (req, res) => {
     });
 });
 
+router.post("/deletePlaylist", async (req, res) => {
+  let playlistId = req.body.playlistId;
+  let isError = false;
+
+  setUpSpotifyApi(req.user.username)
+    .then((spotifyApi) => {
+      spotifyApi.unfollowPlaylist(playlistId).then(
+        () => {},
+        (err) => {
+          console.log("Error unfollowing playlist", err);
+          isError = true;
+        }
+      );
+    })
+    .catch((error) => {
+      console.log(error);
+      isError = true;
+    });
+
+  Playlist.deleteOne({ spotifyId: playlistId })
+    .catch((err) => console.log("Remixed playlist not deleted from MongoDB", err));
+
+  if (!isError) {
+    res.status(200).json({
+      success: true,
+    });
+  } else {
+    res.status(500).json({
+      success: false,
+    });
+  }
+});
+
 router.post("/remix", async (req, res) => {
   // How to handle errors in this route?
 
@@ -114,7 +145,7 @@ router.post("/remix", async (req, res) => {
 
   // Create remixed Songs
   const remixedSongs = await createRemixedSongs(oldTracks, req.user.username);
-  
+
   // Create/populate playlist model
   const remixedPlaylist = await createRemixedPlaylist(
     newPlaylistId,
@@ -122,14 +153,14 @@ router.post("/remix", async (req, res) => {
     remixedSongs,
     req.user.spotifyId
   );
-  
+
   // Populate playlist
   const playlistPopulationSuccess = await populateRemixPlaylist(
     newPlaylistId,
     remixedSongs,
     req.user.username
   );
-  
+
   // Returns remixed playlists
 
   if (playlistPopulationSuccess) {
