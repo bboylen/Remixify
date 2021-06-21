@@ -75,13 +75,14 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
     }
   }, [selectedPlaylist]);
 
-  const handleRemix = () => {
-    remixPlaylist(selectedPlaylist.id, selectedPlaylist.name).then(
-      (response) => {
-        setRemixedPlaylists(response.playlists);
-        selectPlaylist(response.playlistId);
-      }
+  const handleRemix = async () => {
+    let response = await remixPlaylist(
+      selectedPlaylist.id,
+      selectedPlaylist.name
     );
+
+    setRemixedPlaylists(response.playlists);
+    selectPlaylist(response.playlistId, true);
   };
 
   const handleDelete = async () => {
@@ -90,13 +91,15 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
     getRemixedPlaylists().then((response) => {
       setRemixedPlaylists(response.playlists);
       setSelectedPlaylist(null);
-    })
+    });
   };
 
-  const selectPlaylist = (playlistKey: any) => {
-    let remixed = remixedPlaylists.some(
-      (playlist: any) => playlist.spotifyId === playlistKey
-    );
+  const selectPlaylist = (playlistKey: any, remixed: Boolean = false) => {
+    if (!remixed) {
+      remixed = remixedPlaylists.some(
+        (playlist: any) => playlist.spotifyId === playlistKey
+      );
+    }
 
     if (remixed) {
       setRemixedSelected(true);
