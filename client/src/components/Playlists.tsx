@@ -59,6 +59,8 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
   }, [selectedPlaylist]);
 
   const handleRemix = async () => {
+    setContentLoading(true);
+
     let response = await remixPlaylist(
       selectedPlaylist.id,
       selectedPlaylist.name
@@ -66,6 +68,7 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
 
     setRemixedPlaylists(response.playlists);
     selectPlaylist(response.playlistId, true);
+    setContentLoading(false);
   };
 
   const handleDelete = async () => {
