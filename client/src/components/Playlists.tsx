@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { User } from "../util/types";
+import { Playlist } from './Playlist';
 import {
   getPlaylists,
   getRemixedPlaylists,
@@ -7,19 +8,18 @@ import {
   remixPlaylist,
   deletePlaylist,
 } from "../util/spotifyRequests";
-import { Layout, Menu, Table, Button } from "antd";
+import { Layout, Menu, Table, Button, Spin } from "antd";
 import { UserOutlined, LaptopOutlined } from "@ant-design/icons";
 import "../styles/Playlists.css";
-import { PageHeader } from "antd";
 
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 
-interface PlaylistProps {
+interface PlaylistsProps {
   user: User;
 }
 
-export const Playlists: React.FC<PlaylistProps> = (props) => {
+export const Playlists: React.FC<PlaylistsProps> = (props) => {
   // const { user } = props;
   const [userPlaylists, setUserPlaylists] = useState<any>([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState<any>();
@@ -27,24 +27,7 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
   const [remixedPlaylists, setRemixedPlaylists] = useState<any>([]);
   const [remixedSelected, setRemixedSelected] = useState<Boolean>(false);
   const [loading, setLoading] = useState<Boolean>(true);
-
-  const columns = [
-    {
-      title: "Title",
-      dataIndex: "songName",
-      key: "name",
-    },
-    {
-      title: "Artist",
-      dataIndex: "artist",
-      key: "artist",
-    },
-    {
-      title: "Album",
-      dataIndex: "album",
-      key: "album",
-    },
-  ];
+  const [contentLoading, setContentLoading] = useState<Boolean>(false);
 
   useEffect(() => {
     getPlaylists().then((response) => {
@@ -185,43 +168,15 @@ export const Playlists: React.FC<PlaylistProps> = (props) => {
             backgroundColor: "white",
           }}
         >
-          {selectedPlaylist && (
-            <PageHeader
-              title={selectedPlaylist.name}
-              extra={
-                remixedSelected ? (
-                  [
-                    <Button
-                      onClick={handleDelete}
-                      size={"large"}
-                      danger
-                      type={"primary"}
-                    >
-                      Delete
-                    </Button>,
-                    <Button
-                      onClick={handleRemix}
-                      size={"large"}
-                      type={"primary"}
-                    >
-                      Remix
-                    </Button>,
-                  ]
-                ) : (
-                  <Button onClick={handleRemix} size={"large"} type={"primary"}>
-                    Remix
-                  </Button>
-                )
-              }
-            />
-          )}
-          {selectedPlaylist && (
-            <Table
-              dataSource={playlistData}
-              columns={columns}
-              sticky={true}
-              pagination={{ pageSize: 1000, position: [] }}
-              scroll={{ y: "65vh" }}
+          {contentLoading ? (
+            <Spin size="large" />
+          ) : (
+            <Playlist 
+            selectedPlaylist={selectedPlaylist}
+            remixedSelected={remixedSelected}
+            handleDelete={handleDelete}
+            handleRemix={handleRemix}
+            playlistData={playlistData}
             />
           )}
         </Content>
