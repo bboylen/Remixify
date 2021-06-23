@@ -24,13 +24,14 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
   const { isPhone } = props;
   const [userPlaylists, setUserPlaylists] = useState<any>([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState<any>();
+  const [selectedPlaylistId, setSelectedPlaylistId] = useState<any>([]);
   const [playlistData, setPlaylistData] = useState<any>([]);
   const [remixedPlaylists, setRemixedPlaylists] = useState<any>([]);
   const [remixedSelected, setRemixedSelected] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [contentLoading, setContentLoading] = useState<boolean>(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(true);
-  
+  console.log(selectedPlaylist);
   useEffect(() => {
     getPlaylists().then((response) => {
       setUserPlaylists(response.spotifyPlaylists);
@@ -79,6 +80,7 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
     getRemixedPlaylists().then((response) => {
       setRemixedPlaylists(response.playlists);
       setSelectedPlaylist(null);
+      setSelectedPlaylistId(null);
     });
   };
 
@@ -99,6 +101,8 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
   }, [isPhone])
 
   const selectPlaylist = (playlistKey: any, remixed: Boolean = false) => {
+    setSelectedPlaylistId(playlistKey);
+
     if (!remixed) {
       remixed = remixedPlaylists.some(
         (playlist: any) => playlist.spotifyId === playlistKey
@@ -135,6 +139,7 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
             mode="inline"
             defaultOpenKeys={["sub1", "sub2"]}
             defaultSelectedKeys={userPlaylists[0] ? [userPlaylists[0].id] : []}
+            selectedKeys={selectedPlaylist ? selectedPlaylistId : []}
             style={{ height: "100%", borderRight: 0 }}
             onClick={(playlist) => selectPlaylist(playlist.key)}
           >
@@ -184,7 +189,9 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
         <Content
           className="site-layout-background"
           style={{
-            padding: 24,
+            padding: 16,
+            paddingLeft: 5,
+            paddingTop: 0,
             margin: 0,
             minHeight: 280,
             height: "100%",
