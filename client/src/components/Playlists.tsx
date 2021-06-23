@@ -17,18 +17,20 @@ const { Content, Sider } = Layout;
 
 interface PlaylistsProps {
   user: User;
+  isPhone: boolean | undefined;
 }
 
 export const Playlists: React.FC<PlaylistsProps> = (props) => {
-  // const { user } = props;
+  const { isPhone } = props;
   const [userPlaylists, setUserPlaylists] = useState<any>([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState<any>();
   const [playlistData, setPlaylistData] = useState<any>([]);
   const [remixedPlaylists, setRemixedPlaylists] = useState<any>([]);
-  const [remixedSelected, setRemixedSelected] = useState<Boolean>(false);
-  const [loading, setLoading] = useState<Boolean>(true);
-  const [contentLoading, setContentLoading] = useState<Boolean>(false);
-
+  const [remixedSelected, setRemixedSelected] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [contentLoading, setContentLoading] = useState<boolean>(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(true);
+  
   useEffect(() => {
     getPlaylists().then((response) => {
       setUserPlaylists(response.spotifyPlaylists);
@@ -80,6 +82,22 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
     });
   };
 
+  const handleSidebarCollapse = () => {
+    if (isPhone) return;
+    
+    if (sidebarCollapsed) {
+      setSidebarCollapsed(false);
+    } else {
+      setSidebarCollapsed(true);
+    };
+  }
+
+  useEffect(() => {
+    if (isPhone) {
+      setSidebarCollapsed(true);
+    }
+  }, [isPhone])
+
   const selectPlaylist = (playlistKey: any, remixed: Boolean = false) => {
     if (!remixed) {
       remixed = remixedPlaylists.some(
@@ -108,6 +126,8 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
           className="site-layout-background"
           collapsible={true}
           collapsedWidth={40}
+          collapsed={sidebarCollapsed}
+          onCollapse={handleSidebarCollapse}
           theme={"light"}
           style={{ height: "100%", overflow: "auto" }}
         >

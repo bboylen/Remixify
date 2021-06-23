@@ -2,11 +2,11 @@ import React, { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { Menu, Dropdown } from "antd";
 
-interface Props {
+interface NavDropdownProps {
   location: any;
 }
 
-export const NavbarDropdown: React.FC<any> = (props) => {
+export const NavbarDropdown: React.FC<NavDropdownProps> = (props) => {
   const { location } = props;
 
   const itemStyle: CSSProperties = {

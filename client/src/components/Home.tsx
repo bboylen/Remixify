@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { Switch, Route, Link, useLocation, Redirect } from "react-router-dom";
-import { Layout, Menu, Button } from "antd";
+import React, { useContext, useState } from "react";
+import { Switch, Route, useLocation, Redirect } from "react-router-dom";
+import { Layout, Button } from "antd";
 import { UserContext } from "../util/UserContext";
 import { Playlists } from "./Playlists";
 import { StreamMusic } from "./StreamMusic";
@@ -10,11 +10,12 @@ import { NavbarDropdown } from "./Navbar/NavbarDropdown";
 
 import "../styles/Home.css";
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 const Home: React.FC = () => {
-  const user = useContext(UserContext);
+  const [isPhone, setIsPhone] = useState<boolean>();
 
+  const user = useContext(UserContext);
   const location = useLocation();
 
   const DesktopNav = ({ children }: any) => {
@@ -23,6 +24,7 @@ const Home: React.FC = () => {
   };
   const PhoneNav = ({ children }: any) => {
     const isPhone = useMediaQuery({ maxWidth: 699 });
+    setIsPhone(isPhone);
     return isPhone ? children : null;
   };
 
@@ -67,7 +69,7 @@ const Home: React.FC = () => {
               <StreamMusic />
             </Route>
             <Route path="/playlists">
-              <Playlists user={user} />
+              <Playlists user={user} isPhone={isPhone}/>
             </Route>
             <Route
               exact

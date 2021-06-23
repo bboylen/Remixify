@@ -3,7 +3,6 @@ require("dotenv").config();
 const cookieSession = require("cookie-session");
 const cookieParser = require('cookie-parser');
 const passport = require("passport");
-const isLoggedIn = require("./middleware/auth.js");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth-routes");
 const spotifyRoutes = require("./routes/spotify-api-routes");
@@ -29,7 +28,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// set up cors to allow us to accept requests from our client
+// set up cors to allow us to accept requests from client
   app.use(
     cors({
       origin: "http://localhost:3000", 
