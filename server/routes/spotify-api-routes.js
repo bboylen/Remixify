@@ -48,7 +48,7 @@ router.get("/playlists", async (req, res) => {
   res.status(200).json({
     success: true,
     spotifyPlaylists: spotifyPlaylists,
-    remixedPlaylists: remixedPlaylists,
+    remixedPlaylists: remixedPlaylists.reverse(),
   });
 
   //Error?
@@ -170,7 +170,7 @@ router.post("/remix", async (req, res) => {
 
     res.status(200).json({
       success: true,
-      playlists: usersRemixedPlaylists,
+      playlists: usersRemixedPlaylists.reverse(),
       playlistId: remixedPlaylist.spotifyId,
       message: "Playlist remix successful",
     });

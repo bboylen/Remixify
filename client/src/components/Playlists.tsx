@@ -30,8 +30,8 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
   const [remixedSelected, setRemixedSelected] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [contentLoading, setContentLoading] = useState<boolean>(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(true);
-  console.log(selectedPlaylist);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
+
   useEffect(() => {
     getPlaylists().then((response) => {
       setUserPlaylists(response.spotifyPlaylists);
@@ -199,7 +199,7 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
           }}
         >
           {contentLoading ? (
-            <Spin size="large" />
+            <Spin size="large" style={{marginTop: '10rem'}} />
           ) : (
             <Playlist 
             selectedPlaylist={selectedPlaylist}
