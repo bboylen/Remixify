@@ -61,7 +61,7 @@ router.get("/remixedPlaylists", async (req, res) => {
     });
     res.status(200).json({
       success: true,
-      playlists: usersRemixedPlaylists,
+      playlists: usersRemixedPlaylists.reverse(),
       message: "Remixed playlist retrieval successful",
     });
   } catch (error) {

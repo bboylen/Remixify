@@ -44,22 +44,25 @@ const createRemixedSongs = async (oldTracks, userName) => {
   for (let i = 0; i < artistIds.length; i++) {
     await spotifyApi.getArtistTopTracks(artistIds[i], "US").then(
       (topTracks) => {
-        const tracks = topTracks.body.tracks;
-        const filteredTracks = tracks;
-        // const filteredTracks = tracks.filter((track) => {
-        //   console.log(track.id)
-        //   let isDuplicate = newTracks.some((newTrack) => newTrack.id === track.id)
-        //   console.log(isDuplicate);
-        //   return isDuplicate;
-        //   // for (let j = 0; j < newTracks.length; j++) {
-        //   //   console.log(newTracks);
-        //   //   if (track.id === newTracks[j].id) return false;
-        //   //   else return true;
-        //   // }
-        // });
-        //console.log(filteredTracks);
-        const selectedTrack =
-          filteredTracks[Math.floor(Math.random() * filteredTracks.length)];
+        topTracks = topTracks.body.tracks;
+
+        let selectedTrack =
+          topTracks[Math.floor(Math.random() * topTracks.length)];
+
+        //let count = 0;
+
+        let tracksClone = [...topTracks];
+
+        while (newTracks.some((newTrack) => {
+          if (newTrack.id === selectedTrack.id) {
+            return true;
+          };
+          return false;
+        }) && (tracksClone.length > 1)) {
+          tracksClone = tracksClone.filter(track => track !== selectedTrack);
+          selectedTrack = tracksClone[Math.floor(Math.random() * tracksClone.length)];
+        };
+
         newTracks.push(selectedTrack);
       },
       (err) => {
@@ -108,16 +111,14 @@ const populateRemixPlaylist = async (playlistId, remixedSongs, userName) => {
   const remixedSongIds = remixedSongs.map((song) => song.uri);
 
   const spotifyApi = await setUpSpotifyApi(userName);
-  return await spotifyApi
-    .addTracksToPlaylist(playlistId, remixedSongIds)
-    .then(
-      () => {
-        return true;
-      },
-      (err) => {
-        console.log("Error adding songs to playlist", err);
-      }
-    );
+  return await spotifyApi.addTracksToPlaylist(playlistId, remixedSongIds).then(
+    () => {
+      return true;
+    },
+    (err) => {
+      console.log("Error adding songs to playlist", err);
+    }
+  );
 };
 
 module.exports = {
