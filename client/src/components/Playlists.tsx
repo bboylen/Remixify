@@ -137,7 +137,7 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
         >
           <Menu
             mode="inline"
-            defaultOpenKeys={["sub1", "sub2"]}
+            defaultOpenKeys={isPhone ? ["",""] : ["sub1","sub2"]}
             defaultSelectedKeys={userPlaylists[0] ? [userPlaylists[0].id] : []}
             selectedKeys={selectedPlaylist ? selectedPlaylistId : []}
             style={{ height: "100%", borderRight: 0 }}
