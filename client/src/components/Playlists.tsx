@@ -147,6 +147,7 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
               key="sub1"
               icon={<UserOutlined />}
               title="Your Playlists"
+              //popupOffset={[50,150]}
               style={{
                 maxHeight: "60%",
                 overflow: "auto",
