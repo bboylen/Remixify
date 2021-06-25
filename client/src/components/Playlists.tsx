@@ -8,7 +8,7 @@ import {
   remixPlaylist,
   deletePlaylist,
 } from "../util/spotifyRequests";
-import { Layout, Menu, Table, Button, Spin } from "antd";
+import { Layout, Menu, Spin } from "antd";
 import { UserOutlined, LaptopOutlined } from "@ant-design/icons";
 import "../styles/Playlists.css";
 

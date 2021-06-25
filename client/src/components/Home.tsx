@@ -3,7 +3,7 @@ import { Switch, Route, useLocation, Redirect } from "react-router-dom";
 import { Layout, Button } from "antd";
 import { UserContext } from "../util/UserContext";
 import { Playlists } from "./Playlists";
-import { StreamMusic } from "./StreamMusic";
+import { Listen } from "./Listen";
 import { useMediaQuery } from "react-responsive";
 import { NavbarMenu } from "./Navbar/NavbarMenu";
 import { NavbarDropdown } from "./Navbar/NavbarDropdown";
@@ -17,7 +17,7 @@ const Home: React.FC = () => {
 
   const user = useContext(UserContext);
   const location = useLocation();
-
+  console.log(location);
   const DesktopNav = ({ children }: any) => {
     const isDesktop = useMediaQuery({ minWidth: 700 });
     return isDesktop ? children : null;
@@ -63,19 +63,19 @@ const Home: React.FC = () => {
             Logout
           </Button>
         </Header>
-        <Content>
+        <Content style={{backgroundColor: 'white'}}>
           <Switch>
-            <Route path="/listen">
-              <StreamMusic />
-            </Route>
             <Route path="/playlists">
               <Playlists user={user} isPhone={isPhone}/>
+            </Route>
+            <Route path="/listen">
+              <Listen />
             </Route>
             <Route
               exact
               path="/"
               render={() => {
-                return <Redirect to="/listen" />;
+                return <Redirect to="/playlists" />;
               }}
             />
           </Switch>

@@ -1,8 +1,8 @@
 export interface User {
-  username: String,
+  username: string,
   accessToken: string,
-  refreshToken: String,
-  displayName: String,
-  spotifyId: String,
-  profileImageUrl: String,
+  refreshToken: string,
+  displayName: string,
+  spotifyId: string,
+  profileImageUrl: string,
 };

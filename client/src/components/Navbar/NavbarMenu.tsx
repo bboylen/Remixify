@@ -2,11 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Menu } from "antd";
 
-interface Props {
+interface NavMenuProps {
   location: any
 }
 
-export const NavbarMenu: React.FC<any> = (props) => {
+export const NavbarMenu: React.FC<NavMenuProps> = (props) => {
   const { location } = props;
 
   return (
@@ -21,14 +21,14 @@ export const NavbarMenu: React.FC<any> = (props) => {
       }}
       theme="dark"
       mode="horizontal"
-      defaultSelectedKeys={["/listen"]}
+      defaultSelectedKeys={["/playlists"]}
       selectedKeys={[location.pathname]}
     >
-      <Menu.Item key="/listen">
-        <Link to="/listen">Listen</Link>
-      </Menu.Item>
       <Menu.Item key="/playlists">
         <Link to="/playlists">Playlists</Link>
+      </Menu.Item>
+      <Menu.Item key="/listen">
+        <Link to="/listen">Listen</Link>
       </Menu.Item>
     </Menu>
   );

@@ -1,5 +1,5 @@
 const SpotifyWebApi = require("spotify-web-api-node");
-const setUpSpotifyApi = require("./spotifyWebApi");
+const setUpSpotifyApi = require("./setUpSpotifyApi");
 const { Playlist, Song } = require("../models/playlist-model");
 
 const createPlaylist = async (newPlaylistName, description, userName) => {

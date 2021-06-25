@@ -25,14 +25,14 @@ export const NavbarDropdown: React.FC<NavDropdownProps> = (props) => {
       }}
       theme="dark"
       mode="horizontal"
-      defaultSelectedKeys={["/listen"]}
+      defaultSelectedKeys={["/playlists"]}
       selectedKeys={[location.pathname]}
     >
-      <Menu.Item  style={itemStyle} key="/listen">
-        <Link to="/listen">Listen</Link>
-      </Menu.Item>
       <Menu.Item style={itemStyle} key="/playlists">
         <Link to="/playlists">Playlists</Link>
+      </Menu.Item>
+      <Menu.Item  style={itemStyle} key="/listen">
+        <Link to="/listen">Listen</Link>
       </Menu.Item>
     </Menu>
   );

@@ -7,7 +7,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth-routes");
 const spotifyRoutes = require("./routes/spotify-api-routes");
 const cors = require('cors');
-require("./utilities/passport.ts");
+require("./utilities/passport.js");
 
 const PORT = process.env.PORT || 3001;
 

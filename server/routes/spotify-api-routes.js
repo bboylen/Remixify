@@ -1,5 +1,5 @@
 const SpotifyWebApi = require("spotify-web-api-node");
-const setUpSpotifyApi = require("../utilities/spotifyWebApi");
+const setUpSpotifyApi = require("../utilities/setUpSpotifyApi");
 const {
   createPlaylist,
   getOldTracks,
