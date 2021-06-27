@@ -22,9 +22,6 @@ const Login: React.FC = () => {
               <Button onClick={loginToSpotify} type={"primary"}>
                 Login with Spotify
               </Button>
-              <Button type={"default"} style={{ marginTop: "25px" }}>
-                Login as guest
-              </Button>
             </Card>
           </Col>
         </Row>
