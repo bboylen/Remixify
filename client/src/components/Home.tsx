@@ -33,12 +33,10 @@ const Home: React.FC = () => {
     window.open("http://localhost:3001/auth/logout", "_self");
   };
 
-  // Need to check auth on routes!!!
-
   return (
     <div className="main">
       <Layout style={{height: '100vh'}}>
-        <Header id="main-header" style={{ textAlign: "left" }}>
+        <Header id="main-header" style={{ textAlign: "left", backgroundColor: '#043059' }}>
           <h1
             className="logo"
             style={{ display: "inline-block", color: "white" }}

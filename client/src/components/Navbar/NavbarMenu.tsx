@@ -18,6 +18,7 @@ export const NavbarMenu: React.FC<NavMenuProps> = (props) => {
         position: "relative",
         top: "-3px",
         height: "64px",
+        backgroundColor: '#043059',
       }}
       theme="dark"
       mode="horizontal"

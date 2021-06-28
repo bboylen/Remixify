@@ -17,9 +17,9 @@ const Login: React.FC = () => {
             <Card
               title="Login to Symphony"
               style={{ width: 300, textAlign: "center" }}
-              headStyle={{ backgroundColor: '#001529', color: 'white' }}
+              headStyle={{ backgroundColor: '#043059', color: 'white', fontSize: '20px' }}
             >
-              <Button onClick={loginToSpotify} type={"primary"}>
+              <Button onClick={loginToSpotify} type={"primary"} style={{fontSize: '15px'}}>
                 Login with Spotify
               </Button>
             </Card>

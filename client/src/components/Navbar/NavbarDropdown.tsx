@@ -22,6 +22,7 @@ export const NavbarDropdown: React.FC<NavDropdownProps> = (props) => {
       style={{
         marginTop: '17px',
         padding: '0px',
+        backgroundColor: '#043059'
       }}
       theme="dark"
       mode="horizontal"
@@ -43,6 +44,9 @@ export const NavbarDropdown: React.FC<NavDropdownProps> = (props) => {
         onClick={(e) => e.preventDefault()}
         style={{
           marginLeft: "10%",
+          fontSize: '16px',
+          color: 'white',
+          textDecoration: 'underline'
         }}
       >
         Menu
