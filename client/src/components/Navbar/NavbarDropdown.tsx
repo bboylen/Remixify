@@ -22,7 +22,7 @@ export const NavbarDropdown: React.FC<NavDropdownProps> = (props) => {
       style={{
         marginTop: '17px',
         padding: '0px',
-        backgroundColor: '#043059'
+        backgroundColor: '#043059',
       }}
       theme="dark"
       mode="horizontal"

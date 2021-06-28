@@ -37,7 +37,6 @@ app.use(passport.session());
     })
   );
 
-  // Need to look into accesstoken expiring!!
 app.use("/auth/", authRoutes);
 app.use("/spotify/", spotifyRoutes);
 app.use( (err, req, res, next) => {
