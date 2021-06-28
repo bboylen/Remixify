@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { User } from "../util/types";
-import { Playlist } from './Playlist';
+import { Playlist } from "./Playlist";
 import {
   getPlaylists,
   getRemixedPlaylists,
@@ -33,11 +33,13 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
 
   useEffect(() => {
-    getPlaylists().then((response) => {
-      setUserPlaylists(response.spotifyPlaylists);
-      setRemixedPlaylists(response.remixedPlaylists);
-      setLoading(false);
-    });
+    getPlaylists()
+      .then((response) => {
+        setUserPlaylists(response.spotifyPlaylists);
+        setRemixedPlaylists(response.remixedPlaylists);
+        setLoading(false);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   //CHANGE HOW THIS WORKS, SHOULD FIRE AFTER REMIX
@@ -46,6 +48,12 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
       selectPlaylist(userPlaylists[0].id);
     }
   }, [userPlaylists]);
+
+  useEffect(() => {
+    if (isPhone) {
+      setSidebarCollapsed(true);
+    }
+  }, [isPhone]);
 
   useEffect(() => {
     if (selectedPlaylist) {
@@ -64,41 +72,42 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
   const handleRemix = async () => {
     setContentLoading(true);
 
-    let response = await remixPlaylist(
-      selectedPlaylist.id,
-      selectedPlaylist.name
-    );
+    let response;
 
-    setRemixedPlaylists(response.playlists);
-    selectPlaylist(response.playlistId, true);
-    setContentLoading(false);
+    try {
+      response = await remixPlaylist(
+        selectedPlaylist.id,
+        selectedPlaylist.name
+      );
+      setRemixedPlaylists(response.playlists);
+      selectPlaylist(response.playlistId, true);
+      setContentLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDelete = async () => {
     await deletePlaylist(selectedPlaylist.id);
 
-    getRemixedPlaylists().then((response) => {
-      setRemixedPlaylists(response.playlists);
-      setSelectedPlaylist(null);
-      setSelectedPlaylistId(null);
-    });
+    getRemixedPlaylists()
+      .then((response) => {
+        setRemixedPlaylists(response.playlists);
+        setSelectedPlaylist(null);
+        setSelectedPlaylistId(null);
+      })
+      .catch((error) => console.log(error));
   };
 
   const handleSidebarCollapse = () => {
     if (isPhone) return;
-    
+
     if (sidebarCollapsed) {
       setSidebarCollapsed(false);
     } else {
       setSidebarCollapsed(true);
-    };
-  }
-
-  useEffect(() => {
-    if (isPhone) {
-      setSidebarCollapsed(true);
     }
-  }, [isPhone])
+  };
 
   const selectPlaylist = (playlistKey: any, remixed: Boolean = false) => {
     setSelectedPlaylistId(playlistKey);
@@ -137,7 +146,7 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
         >
           <Menu
             mode="inline"
-            defaultOpenKeys={isPhone ? ["",""] : ["sub1","sub2"]}
+            defaultOpenKeys={isPhone ? ["", ""] : ["sub1", "sub2"]}
             defaultSelectedKeys={userPlaylists[0] ? [userPlaylists[0].id] : []}
             selectedKeys={selectedPlaylist ? selectedPlaylistId : []}
             style={{ height: "100%", borderRight: 0 }}
@@ -200,14 +209,14 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
           }}
         >
           {contentLoading ? (
-            <Spin size="large" style={{marginTop: '10rem'}} />
+            <Spin size="large" style={{ marginTop: "10rem" }} />
           ) : (
-            <Playlist 
-            selectedPlaylist={selectedPlaylist}
-            remixedSelected={remixedSelected}
-            handleDelete={handleDelete}
-            handleRemix={handleRemix}
-            playlistData={playlistData}
+            <Playlist
+              selectedPlaylist={selectedPlaylist}
+              remixedSelected={remixedSelected}
+              handleDelete={handleDelete}
+              handleRemix={handleRemix}
+              playlistData={playlistData}
             />
           )}
         </Content>

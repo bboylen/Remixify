@@ -3,25 +3,31 @@ const setUpSpotifyApi = require("./setUpSpotifyApi");
 const { Playlist, Song } = require("../models/playlist-model");
 
 const createPlaylist = async (newPlaylistName, description, userName) => {
-  const spotifyApi = await setUpSpotifyApi(userName);
-  const playlistId = await spotifyApi
-    .createPlaylist(newPlaylistName, {
-      description: description,
-      public: true,
-    })
-    .then(
-      (data) => {
-        return data.body.id;
-      },
-      (err) => {
-        console.log("Error creating playlist", err);
-      }
-    );
+  try {
+    const spotifyApi = await setUpSpotifyApi(userName);
+    const playlistId = await spotifyApi
+      .createPlaylist(newPlaylistName, {
+        description: description,
+        public: true,
+      })
+      .then(
+        (data) => {
+          return data.body.id;
+        },
+        (err) => {
+          console.log("Error creating playlist", err);
+        }
+      );
 
-  return playlistId;
+    return playlistId;
+  } catch (err) {
+    console.log(err);
+    return(err);
+  }
 };
 
 const getOldTracks = async (playlistId, userName) => {
+  try {
   const spotifyApi = await setUpSpotifyApi(userName);
   const trackList = await spotifyApi.getPlaylist(playlistId).then(
     (data) => {
@@ -32,15 +38,20 @@ const getOldTracks = async (playlistId, userName) => {
     }
   );
 
-  return trackList;
+  return trackList;}
+  catch (err) {
+    console.log(err);
+    return(err);
+  }
 };
 
 const createRemixedSongs = async (oldTracks, userName) => {
+  try {
   const artistIds = oldTracks.map((track) => track.track.artists[0].id);
 
   const spotifyApi = await setUpSpotifyApi(userName);
   const newTracks = [];
-
+    
   for (let i = 0; i < artistIds.length; i++) {
     await spotifyApi.getArtistTopTracks(artistIds[i], "US").then(
       (topTracks) => {
@@ -53,15 +64,19 @@ const createRemixedSongs = async (oldTracks, userName) => {
 
         let tracksClone = [...topTracks];
 
-        while (newTracks.some((newTrack) => {
-          if (newTrack.id === selectedTrack.id) {
-            return true;
-          };
-          return false;
-        }) && (tracksClone.length > 1)) {
-          tracksClone = tracksClone.filter(track => track !== selectedTrack);
-          selectedTrack = tracksClone[Math.floor(Math.random() * tracksClone.length)];
-        };
+        while (
+          newTracks.some((newTrack) => {
+            if (newTrack.id === selectedTrack.id) {
+              return true;
+            }
+            return false;
+          }) &&
+          tracksClone.length > 1
+        ) {
+          tracksClone = tracksClone.filter((track) => track !== selectedTrack);
+          selectedTrack =
+            tracksClone[Math.floor(Math.random() * tracksClone.length)];
+        }
 
         newTracks.push(selectedTrack);
       },
@@ -70,7 +85,11 @@ const createRemixedSongs = async (oldTracks, userName) => {
       }
     );
   }
-  return newTracks;
+  return newTracks;}
+  catch (err){
+    console.log(err);
+    return(err);
+  }
 };
 
 const createRemixedPlaylist = async (

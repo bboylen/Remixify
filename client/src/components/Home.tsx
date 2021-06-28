@@ -17,7 +17,7 @@ const Home: React.FC = () => {
 
   const user = useContext(UserContext);
   const location = useLocation();
-  console.log(location);
+  
   const DesktopNav = ({ children }: any) => {
     const isDesktop = useMediaQuery({ minWidth: 700 });
     return isDesktop ? children : null;

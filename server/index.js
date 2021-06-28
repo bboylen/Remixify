@@ -6,6 +6,7 @@ const passport = require("passport");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth-routes");
 const spotifyRoutes = require("./routes/spotify-api-routes");
+const errorHandler = require('./routes/error-handler');
 const cors = require('cors');
 require("./utilities/passport.js");
 
@@ -40,6 +41,11 @@ app.use(passport.session());
   // Need to look into accesstoken expiring!!
 app.use("/auth/", authRoutes);
 app.use("/spotify/", spotifyRoutes);
+app.use( (err, req, res, next) => {
+  console.log(`Error: ${err}`);
+  res.status(500).send();
+})
+//app.use("/error/", errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
