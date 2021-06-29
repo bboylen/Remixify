@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Switch, Route, useLocation, Redirect } from "react-router-dom";
 import { Layout, Button } from "antd";
 import { UserContext } from "../util/UserContext";
+import { EnvContext } from "../util/EnvContext";
 import { Playlists } from "./Playlists";
 import { Listen } from "./Listen";
 import { useMediaQuery } from "react-responsive";
@@ -16,6 +17,7 @@ const Home: React.FC = () => {
   const [isPhone, setIsPhone] = useState<boolean>();
 
   const user = useContext(UserContext);
+  const clientURL = useContext(EnvContext);
   const location = useLocation();
   
   const DesktopNav = ({ children }: any) => {

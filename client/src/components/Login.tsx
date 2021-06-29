@@ -1,13 +1,15 @@
 import React, { useContext } from "react";
 import { Card, Button, Row, Col } from "antd";
 import { UserContext } from '../util/UserContext';
+import { EnvContext } from "../util/EnvContext";
 
 const Login: React.FC = () => {
-  const user = useContext(UserContext);
+ // const user = useContext(UserContext);
+  const clientURL = useContext(EnvContext);
 
   const loginToSpotify = (e: any) => {
     e.preventDefault();
-    window.open("http://localhost:3001/auth/spotify", "_self");
+    window.open(`${clientURL}/auth/spotify`, "_self");
   };
 
   return (
