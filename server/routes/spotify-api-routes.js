@@ -11,7 +11,6 @@ const router = require("express").Router();
 const asyncHandler = require("express-async-handler");
 const User = require("../models/user-model");
 const { Playlist, Song } = require("../models/playlist-model");
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 
 router.get(
   "/playlists",
