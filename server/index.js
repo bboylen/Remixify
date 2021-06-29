@@ -8,6 +8,7 @@ const authRoutes = require("./routes/auth-routes");
 const spotifyRoutes = require("./routes/spotify-api-routes");
 const cors = require('cors');
 require("./utilities/passport.js");
+const path = require('path');
 
 const PORT = process.env.PORT || 3001;
 
@@ -42,6 +43,11 @@ app.use("/spotify/", spotifyRoutes);
 app.use( (err, req, res, next) => {
   console.log(`Error: ${err}`);
   res.status(500).send();
+})
+
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.get('*', function (request, response) {
+  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 })
 
 app.listen(PORT, () => {
