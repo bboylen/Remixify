@@ -32,7 +32,7 @@ const Home: React.FC = () => {
 
   const logoutUser = (e: any) => {
     e.preventDefault();
-    window.open("http://localhost:3001/auth/logout", "_self");
+    window.open(`${clientURL}/auth/logout`, "_self");
   };
 
   return (
@@ -66,7 +66,7 @@ const Home: React.FC = () => {
         <Content style={{backgroundColor: 'white'}}>
           <Switch>
             <Route path="/playlists">
-              <Playlists user={user} isPhone={isPhone}/>
+              <Playlists user={user} isPhone={isPhone} clientURL={clientURL}/>
             </Route>
             <Route path="/listen">
               <Listen />

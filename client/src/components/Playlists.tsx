@@ -18,10 +18,11 @@ const { Content, Sider } = Layout;
 interface PlaylistsProps {
   user: User;
   isPhone: boolean | undefined;
+  clientURL: string;
 }
 
 export const Playlists: React.FC<PlaylistsProps> = (props) => {
-  const { isPhone } = props;
+  const { isPhone, clientURL } = props;
   const [userPlaylists, setUserPlaylists] = useState<any>([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState<any>();
   const [selectedPlaylistId, setSelectedPlaylistId] = useState<any>([]);
@@ -33,7 +34,7 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
 
   useEffect(() => {
-    getPlaylists()
+    getPlaylists(clientURL)
       .then((response) => {
         setUserPlaylists(response.spotifyPlaylists);
         setRemixedPlaylists(response.remixedPlaylists);
@@ -77,7 +78,8 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
     try {
       response = await remixPlaylist(
         selectedPlaylist.id,
-        selectedPlaylist.name
+        selectedPlaylist.name,
+        clientURL
       );
       setRemixedPlaylists(response.playlists);
       selectPlaylist(response.playlistId, true);
@@ -88,9 +90,9 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
   };
 
   const handleDelete = async () => {
-    await deletePlaylist(selectedPlaylist.id);
+    await deletePlaylist(selectedPlaylist.id, clientURL);
 
-    getRemixedPlaylists()
+    getRemixedPlaylists(clientURL)
       .then((response) => {
         setRemixedPlaylists(response.playlists);
         setSelectedPlaylist(null);
@@ -124,7 +126,7 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
       setRemixedSelected(false);
     }
 
-    getPlaylist(playlistKey).then((response) =>
+    getPlaylist(playlistKey, clientURL).then((response) =>
       setSelectedPlaylist(response.playlist)
     );
   };

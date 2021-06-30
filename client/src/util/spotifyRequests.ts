@@ -1,6 +1,5 @@
-
-const getPlaylists = async () => {
-  return fetch(`http://localhost:3001/spotify/playlists`, {
+const getPlaylists = async (clientURL: string) => {
+  return fetch(`${clientURL}/spotify/playlists`, {
     method: "GET",
     credentials: "include",
   })
@@ -8,11 +7,11 @@ const getPlaylists = async () => {
       if (response.status === 200) return response.json();
       throw new Error("failed to fetch user playlists");
     })
-    .catch((error) => console.log(error))    
+    .catch((error) => console.log(error));
 };
 
-const getRemixedPlaylists = async () => {
-  return fetch(`http://localhost:3001/spotify/remixedPlaylists`, {
+const getRemixedPlaylists = async (clientURL: string) => {
+  return fetch(`${clientURL}/spotify/remixedPlaylists`, {
     method: "GET",
     credentials: "include",
   })
@@ -21,11 +20,11 @@ const getRemixedPlaylists = async () => {
 
       //throw new Error("failed to fetch user playlists");
     })
-    .catch((error) => console.log('sadfds',error));
+    .catch((error) => console.log("sadfds", error));
 };
 
-const getPlaylist = async (playlistId: string) => {
-  return fetch(`http://localhost:3001/spotify/playlist`, {
+const getPlaylist = async (playlistId: string, clientURL: string) => {
+  return fetch(`${clientURL}/spotify/playlist`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -41,8 +40,12 @@ const getPlaylist = async (playlistId: string) => {
     .catch((error) => console.log(error));
 };
 
-const remixPlaylist = async (playlistId: string, playlistName: string) => {
-  return fetch(`http://localhost:3001/spotify/remix`, {
+const remixPlaylist = async (
+  playlistId: string,
+  playlistName: string,
+  clientURL: string
+) => {
+  return fetch(`${clientURL}/spotify/remix`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -61,8 +64,8 @@ const remixPlaylist = async (playlistId: string, playlistName: string) => {
     .catch((error) => console.log(error));
 };
 
-const deletePlaylist = async (playlistId: string) => {
-  return fetch(`http://localhost:3001/spotify/deletePlaylist`, {
+const deletePlaylist = async (playlistId: string, clientURL: string) => {
+  return fetch(`${clientURL}/spotify/deletePlaylist`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -78,4 +81,10 @@ const deletePlaylist = async (playlistId: string) => {
     .catch((error) => console.log(error));
 };
 
-export {getPlaylists, getRemixedPlaylists, getPlaylist, remixPlaylist, deletePlaylist};
+export {
+  getPlaylists,
+  getRemixedPlaylists,
+  getPlaylist,
+  remixPlaylist,
+  deletePlaylist,
+};

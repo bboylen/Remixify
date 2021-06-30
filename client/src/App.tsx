@@ -27,7 +27,7 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState<Boolean>(true);
 
   const authenticateUser = async () => {
-    await fetch("http://localhost:3001/auth/login/success", {
+    await fetch(`${clientURL}/auth/login/success`, {
       method: "GET",
       credentials: "include",
       headers: {
