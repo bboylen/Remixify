@@ -1,10 +1,8 @@
 import React, { useContext } from "react";
 import { Card, Button, Row, Col } from "antd";
-import { UserContext } from '../util/UserContext';
 import { EnvContext } from "../util/EnvContext";
 
 const Login: React.FC = () => {
- // const user = useContext(UserContext);
   const clientURL = useContext(EnvContext);
 
   const loginToSpotify = (e: any) => {
