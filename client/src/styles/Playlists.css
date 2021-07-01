@@ -1,0 +1,30 @@
+
+/* .site-page-header div span:first-of-type{
+  font-size: 18px;
+} */
+
+.web-page-header .ant-page-header-heading-left span {
+  font-size: 28px;
+}
+
+.web-page-header .ant-page-header-heading-left span{
+  max-height: 80px;
+  white-space: normal; 
+}
+
+.web-page-header.ant-page-header {
+  padding: 18px;
+}
+
+.phone-page-header .ant-page-header-heading-left span {
+  font-size: 18px;
+}
+
+.phone-page-header .ant-page-header-heading-left span{
+  max-height: 60px;
+  white-space: normal; 
+}
+
+.phone-page-header.ant-page-header {
+  padding: 10px;
+}

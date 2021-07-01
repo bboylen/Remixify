@@ -2,12 +2,12 @@ import React from "react";
 import { Table, Button, PageHeader } from "antd";
 
 interface PlaylistProps {
-  // Switch type
   selectedPlaylist: any;
   remixedSelected: Boolean;
   handleDelete: any;
   handleRemix: any;
   playlistData: any;
+  isPhone: boolean | undefined;
 }
 
 export const Playlist: React.FC<PlaylistProps> = (props) => {
@@ -17,6 +17,7 @@ export const Playlist: React.FC<PlaylistProps> = (props) => {
     handleDelete,
     handleRemix,
     playlistData,
+    isPhone
   } = props;
 
   const columns = [
@@ -42,6 +43,7 @@ export const Playlist: React.FC<PlaylistProps> = (props) => {
       {selectedPlaylist && (
         <PageHeader
           title={selectedPlaylist.name}
+          className={isPhone ? 'phone-page-header' : 'web-page-header'}
           extra={
             remixedSelected ? (
               [

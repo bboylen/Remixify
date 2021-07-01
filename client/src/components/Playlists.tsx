@@ -43,7 +43,6 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
       .catch((error) => console.log(error));
   }, []);
 
-  //CHANGE HOW THIS WORKS, SHOULD FIRE AFTER REMIX
   useEffect(() => {
     if (userPlaylists.length > 0) {
       selectPlaylist(userPlaylists[0].id);
@@ -137,13 +136,12 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
     <div className="Playlists" style={{ height: "100%" }}>
       <Layout style={{ height: "100%" }}>
         <Sider
-          width={300}
-          className="site-layout-background"
+          width='300'
           collapsible={true}
-          collapsedWidth={40}
+          collapsedWidth='40'
           collapsed={sidebarCollapsed}
           onCollapse={handleSidebarCollapse}
-          theme={"light"}
+          theme='light'
           style={{ height: "100%", overflow: "auto" }}
         >
           <Menu
@@ -158,7 +156,6 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
               key="sub1"
               icon={<UserOutlined />}
               title="Your Playlists"
-              //popupOffset={[50,150]}
               style={{
                 maxHeight: "60%",
                 overflow: "auto",
@@ -219,6 +216,7 @@ export const Playlists: React.FC<PlaylistsProps> = (props) => {
               handleDelete={handleDelete}
               handleRemix={handleRemix}
               playlistData={playlistData}
+              isPhone={isPhone}
             />
           )}
         </Content>

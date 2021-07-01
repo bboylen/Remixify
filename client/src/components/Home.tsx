@@ -9,8 +9,6 @@ import { useMediaQuery } from "react-responsive";
 import { NavbarMenu } from "./Navbar/NavbarMenu";
 import { NavbarDropdown } from "./Navbar/NavbarDropdown";
 
-import "../styles/Home.css";
-
 const { Header, Content } = Layout;
 
 const Home: React.FC = () => {
