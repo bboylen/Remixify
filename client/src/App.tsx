@@ -10,7 +10,7 @@ import { User } from "./util/types";
 import "./App.less";
 
 const App: React.FC = () => {
-  const [authenticated, setAuthenticated] = useState<Boolean>(false);
+  const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<User>({
     username: "",
     accessToken: "",
@@ -24,7 +24,7 @@ const App: React.FC = () => {
       ? "https://still-peak-57686.herokuapp.com"
       : "http://localhost:3001"
   );
-  const [loading, setLoading] = useState<Boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const authenticateUser = async () => {
     await fetch(`${clientURL}/auth/login/success`, {
