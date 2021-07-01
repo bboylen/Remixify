@@ -20,7 +20,7 @@ export const NavbarDropdown: React.FC<NavDropdownProps> = (props) => {
     <Menu
       id="header-nav"
       style={{
-        marginTop: '17px',
+        marginTop: '16px',
         padding: '0px',
         backgroundColor: '#043059',
       }}
