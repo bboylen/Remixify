@@ -1,4 +1,4 @@
-# symphony
+# Remixify
 
 An app that remixes your existing Spotify playlists. It keeps the same artists, but selects new, random songs by them!
 
@@ -10,5 +10,18 @@ Built with Typescript/React/Express/Mongo DB
 
 ## Features
 - OAuth authentication through Spotify
-- User's playlists are loaded into sidebar
-- Selecting a playlist populates the main section with all of the songs in the playlist
+- Web session is stored via a cookie on the user's browser
+- User's playlists are loaded into sidebar and can be selected for display
+- Remixed playlists are created on Spotify and saved in Remixify's database
+- Filters playlists grabbed from Spotify, so remixed ones are displayed separately
+
+## Setup 
+
+Installation:
+`npm install && npm run install-client && npm run install-server`
+
+Start:
+`npm start`
+
+Build:
+`npm build`
