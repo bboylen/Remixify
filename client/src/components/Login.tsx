@@ -15,7 +15,7 @@ const Login: React.FC = () => {
         <Row justify={"center"} style={{ paddingTop: "15%" }}>
           <Col>
             <Card
-              title="Login to Symphony"
+              title="Login to Remixify"
               style={{ width: 300, textAlign: "center" }}
               headStyle={{ backgroundColor: '#043059', color: 'white', fontSize: '20px' }}
             >

@@ -41,7 +41,7 @@ const Home: React.FC = () => {
             className="logo"
             style={{ display: "inline-block", color: "white" }}
           >
-            Symphony
+            Remixify
           </h1>
           <DesktopNav>
             <NavbarMenu location={location} />
