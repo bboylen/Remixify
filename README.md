@@ -8,3 +8,5 @@ Built with Typescript/React/Express/Mongo DB
 
 ## Features
 - OAuth authentication through Spotify
+- User's playlists are loaded into sidebar
+- Selecting a playlist populates the main section with all of the songs in the playlist
