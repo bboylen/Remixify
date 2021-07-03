@@ -35,7 +35,7 @@ Build:
 `npm build`
 
 ## Takeaways
-This was the first app that I have built using Node.js & Express, so there was an initial challenge in getting up to speed. I quickly grew to enjoy working with Express though, and it has surpassed Ruby on Rails as my preferred backend. With Rails I would be frustrated with the 'magic' that obfuscates design decisions from the user. I think Express is a better framework for learning back-end as it forces you to create your own structure.
+This was the first app that I have built using Node.js & Express, so there was an initial challenge in just getting up to speed. However, I quickly grew to enjoy working with Express, and it has surpassed Ruby on Rails as my preferred backend framework. While Rails is easy to pick-up due to its opinionated nature, I think Express is a better framework for learning back-end as it forces you to really learn and create your own structure.
 
 Working with Spotify's API was a pleasant experience, although their docs  could use some work. I used the librarys `passport-spotify` to handle OAuth and `spotify-web-api-node` to simplify the API requests.
 
