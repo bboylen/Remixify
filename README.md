@@ -3,7 +3,7 @@
 An app that remixes your existing Spotify playlists using Spotify's API. It keeps the same artists, but selects new, random songs by them!
 
 ## Technologies Used
-- Typescript (on front end)
+- Typescript (only front end)
 - React
 - Ant Design (React UI Library)
 - Express (Node.js)
