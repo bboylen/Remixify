@@ -20,7 +20,7 @@ A full-stack app that remixes your existing Spotify playlists using Spotify's AP
 - OAuth 2.0 authentication through Spotify
 - Web session is stored via a cookie on the user's browser
 - User's playlists are loaded into sidebar and can be selected for display & remixing
-- Remixed playlists are created on Spotify and saved in Remixify's database
+- Remixed playlists are created on Spotify and saved in a MongoDB database
 - Filters playlists grabbed from Spotify, so remixed ones are displayed separately
 - Remix algorithm minimizes the generation of duplicate songs
 
