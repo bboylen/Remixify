@@ -1,9 +1,9 @@
 # Remixify
 
-An app that remixes your existing Spotify playlists using Spotify's API. It keeps the same artists, but selects new, random songs by them!
+A full-stack app that remixes your existing Spotify playlists using Spotify's API. It keeps the same artists, but selects new, random songs by them!
 
 ## Technologies Used
-- Typescript (on front end)
+- Typescript (only front end)
 - React
 - Ant Design (React UI Library)
 - Express (Node.js)
@@ -20,7 +20,7 @@ An app that remixes your existing Spotify playlists using Spotify's API. It keep
 - OAuth 2.0 authentication through Spotify
 - Web session is stored via a cookie on the user's browser
 - User's playlists are loaded into sidebar and can be selected for display & remixing
-- Remixed playlists are created on Spotify and saved in Remixify's database
+- Remixed playlists are created on Spotify and saved in a MongoDB database
 - Filters playlists grabbed from Spotify, so remixed ones are displayed separately
 - Remix algorithm minimizes the generation of duplicate songs
 
@@ -40,7 +40,7 @@ This was the first app that I have built using Node.js & Express, so there was a
 
 Working with Spotify's API was a pleasant experience, although their docs are unclear at times. I used the libraries `passport-spotify` to handle OAuth and `spotify-web-api-node` to simplify my API request code.
 
-This was also my first time working with MongoDB, or any NoSQL database for that matter. I really enjoyed working with it, it was incredibly easy to learn and never caused any problems. I can see why it is such a popular choice for web apps such as mine, that really do not need the specificity and data integrity provided by a relational database. 
+This was also my first time working with MongoDB, or any NoSQL database for that matter. I really enjoyed working with it, it was incredibly easy to learn and never caused any problems. I can see why it is such a popular choice for web apps such as mine, that do not need the specificity and data integrity provided by a relational database. 
 
 On the front end side I used Typescript, which is new to me. Once I got past the initial confusion about syntax it was really easy to understand and work with. The main benefit was how Typescript integrates nicely with VS Code by underlining code that does not have the proper arguments. This made it easy to make changes in one module, and not forget to make the corresponding changes in another module.
 
