@@ -25,6 +25,4 @@ workflows:
             - node/test # only run deploy-via-git job if the build job has completed
           filters:
             branches:
-              # This sample config runs this job on any branch matching the regex below, however, it's more likely you want to only run this job on master.
-              only: /.*-heroku-deploy/ # Delete this line
-              # only: master  # Uncomment this line
+              only: master  
