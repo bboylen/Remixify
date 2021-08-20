@@ -21,7 +21,7 @@ const App: React.FC = () => {
   });
   const [clientURL, setClientUrl] = useState<string>(
     process.env.NODE_ENV === "production"
-      ? "https://still-peak-57686.herokuapp.com"
+      ? "https://remixify.herokuapp.com"
       : "http://localhost:3001"
   );
   const [loading, setLoading] = useState<boolean>(true);
