@@ -17,10 +17,9 @@ const getRemixedPlaylists = async (clientURL: string) => {
   })
     .then((response) => {
       if (response.status === 200) return response.json();
-
-      //throw new Error("failed to fetch user playlists");
+      throw new Error("failed to fetch remixed playlists");
     })
-    .catch((error) => console.log("sadfds", error));
+    .catch((error) => console.log(error));
 };
 
 const getPlaylist = async (playlistId: string, clientURL: string) => {
