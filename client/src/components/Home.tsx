@@ -30,6 +30,7 @@ const Home = () => {
     const isDesktop = useMediaQuery({ minWidth: 700 });
     return isDesktop ? children : null;
   };
+  
   const PhoneNav = ({ children }: PhoneNavProps) => {
     const isPhone = useMediaQuery({ maxWidth: 699 });
     setIsPhone(isPhone);
