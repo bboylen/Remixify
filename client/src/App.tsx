@@ -19,7 +19,7 @@ const App: React.FC = () => {
     spotifyId: "",
     profileImageUrl: "",
   });
-  const [clientURL, setClientUrl] = useState<string>(
+  const [serverURL, setServerUrl] = useState<string>(
     process.env.NODE_ENV === "production"
       ? "https://remixify.herokuapp.com"
       : "http://localhost:3001"
@@ -27,7 +27,7 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const authenticateUser = async () => {
-    await fetch(`${clientURL}/auth/login/success`, {
+    await fetch(`${serverURL}/auth/login/success`, {
       method: "GET",
       credentials: "include",
       headers: {
@@ -62,7 +62,7 @@ const App: React.FC = () => {
     <Router>
       <UserContext.Provider value={user}>
         <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
-          <EnvContext.Provider value={clientURL}>
+          <EnvContext.Provider value={serverURL}>
             <div className="App" style={{ overflow: "hidden" }}>
               {!authenticated ? <Login /> : <Home />}
             </div>

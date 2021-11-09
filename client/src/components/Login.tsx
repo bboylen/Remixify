@@ -3,11 +3,11 @@ import { Card, Button, Row, Col } from "antd";
 import { EnvContext } from "../util/EnvContext";
 
 const Login: React.FC = () => {
-  const clientURL = useContext(EnvContext);
+  const serverURL = useContext(EnvContext);
 
   const loginToSpotify = (e: any) => {
     e.preventDefault();
-    window.open(`${clientURL}/auth/spotify`, "_self");
+    window.open(`${serverURL}/auth/spotify`, "_self");
   };
 
   return (

@@ -23,7 +23,7 @@ const Home = () => {
   const [isPhone, setIsPhone] = useState<boolean>();
 
   const user = useContext(UserContext);
-  const clientURL = useContext(EnvContext);
+  const serverURL = useContext(EnvContext);
   const location = useLocation();
   
   const DesktopNav = ({ children }: DeskTopNavProps) => {
@@ -39,7 +39,7 @@ const Home = () => {
 
   const logoutUser = (e: any) => {
     e.preventDefault();
-    window.open(`${clientURL}/auth/logout`, "_self");
+    window.open(`${serverURL}/auth/logout`, "_self");
   };
 
   return (
@@ -73,7 +73,7 @@ const Home = () => {
         <Content style={{backgroundColor: 'white'}}>
           <Switch>
             <Route path="/playlists">
-              <Playlists user={user} isPhone={isPhone} clientURL={clientURL}/>
+              <Playlists user={user} isPhone={isPhone} serverURL={serverURL}/>
             </Route>
             <Route path="/listen">
               <Listen />
