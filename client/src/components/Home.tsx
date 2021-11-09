@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { ReactElement, useContext, useState } from "react";
 import { Switch, Route, useLocation, Redirect } from "react-router-dom";
 import { Layout, Button } from "antd";
 import { UserContext } from "../util/UserContext";
@@ -11,18 +11,26 @@ import { NavbarDropdown } from "./Navbar/NavbarDropdown";
 
 const { Header, Content } = Layout;
 
-const Home: React.FC = () => {
+interface DeskTopNavProps {
+  children: ReactElement
+}
+
+interface PhoneNavProps {
+  children: ReactElement
+}
+
+const Home = () => {
   const [isPhone, setIsPhone] = useState<boolean>();
 
   const user = useContext(UserContext);
   const clientURL = useContext(EnvContext);
   const location = useLocation();
   
-  const DesktopNav = ({ children }: any) => {
+  const DesktopNav = ({ children }: DeskTopNavProps) => {
     const isDesktop = useMediaQuery({ minWidth: 700 });
     return isDesktop ? children : null;
   };
-  const PhoneNav = ({ children }: any) => {
+  const PhoneNav = ({ children }: PhoneNavProps) => {
     const isPhone = useMediaQuery({ maxWidth: 699 });
     setIsPhone(isPhone);
     return isPhone ? children : null;

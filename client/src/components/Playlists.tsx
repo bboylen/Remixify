@@ -21,7 +21,7 @@ interface PlaylistsProps {
   clientURL: string;
 }
 
-export const Playlists: React.FC<PlaylistsProps> = (props) => {
+export const Playlists = (props: PlaylistsProps) => {
   const { isPhone, clientURL } = props;
   const [userPlaylists, setUserPlaylists] = useState<any>([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState<any>();
