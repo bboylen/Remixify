@@ -60,8 +60,6 @@ const createRemixedSongs = async (oldTracks, userName) => {
         let selectedTrack =
           topTracks[Math.floor(Math.random() * topTracks.length)];
 
-        //let count = 0;
-
         let tracksClone = [...topTracks];
 
         while (

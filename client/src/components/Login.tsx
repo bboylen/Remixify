@@ -5,7 +5,7 @@ import { EnvContext } from "../util/EnvContext";
 const Login: React.FC = () => {
   const serverURL = useContext(EnvContext);
 
-  const loginToSpotify = (e: any) => {
+  const loginToSpotify = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     window.open(`${serverURL}/auth/spotify`, "_self");
   };
