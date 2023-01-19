@@ -9,7 +9,7 @@ A full-stack app that remixes your existing Spotify playlists using Spotify's AP
 - Express (Node.js)
 - MongoDB
 - Mongoose ODM
-- Deployed on Heroku
+- Deployed on Fly.io
 
 ## Display
 ![remix-main](https://user-images.githubusercontent.com/52515015/124209213-bd4c7000-daae-11eb-85ab-3553a2cf6de1.png)
