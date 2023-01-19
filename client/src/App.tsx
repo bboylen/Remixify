@@ -21,8 +21,8 @@ const App: React.FC = () => {
   });
   const [serverURL, setServerUrl] = useState<string>(
     process.env.NODE_ENV === "production"
-      ? "https://remixify.herokuapp.com"
-      : "http://localhost:3001"
+      ? "https://remixify.fly.dev"
+      : "http://localhost:8080"
   );
   const [loading, setLoading] = useState<boolean>(true);
 

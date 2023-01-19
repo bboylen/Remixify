@@ -2,7 +2,7 @@ const router = require("express").Router();
 const passport = require("passport");
 const CLIENT_HOME_PAGE_URL =
   process.env.NODE_ENV === "production"
-    ? "https://remixify.herokuapp.com"
+    ? "https://remixify.fly.dev"
     : "http://localhost:3000";
 
 router.get("/login/success", (req, res) => {

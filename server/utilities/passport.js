@@ -3,8 +3,8 @@ const SpotifyStrategy = require("passport-spotify").Strategy;
 const User = require("../models/user-model");
 const SERVER_URL =
   process.env.NODE_ENV === "production"
-    ? "https://remixify.herokuapp.com"
-    : "http://localhost:3001";
+    ? "https://remixify.fly.dev"
+    : "http://localhost:8080";
 
 passport.serializeUser(function (user, done) {
   done(null, user.id);
