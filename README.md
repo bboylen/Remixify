@@ -2,6 +2,8 @@
 
 A full-stack app that remixes your existing Spotify playlists using Spotify's API. It keeps the same artists, but selects new, random songs by them!
 
+Check it out at https://remixify.fly.dev/
+
 ## Technologies Used
 - Typescript (only front end)
 - React
